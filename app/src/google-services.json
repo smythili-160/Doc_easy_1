@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "554479892972",
+    "project_id": "doc-easy-1",
+    "storage_bucket": "doc-easy-1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:554479892972:android:cc9a10fe73921c30d0e8c9",
+        "android_client_info": {
+          "package_name": "com.example.doc_easy_1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNyseb5DNmggwJdP5wyjubxQz7uMQtVhY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
