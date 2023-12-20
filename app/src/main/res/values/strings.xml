@@ -10,5 +10,221 @@
     <string name="heading_sixth">Receive notifications for scheduled appointments </string>
     <string name="navigation_open">Open Navigation drawer</string>
     <string name="navigation_close">Close Navigation drawer</string>
-    
+    <string name="radio_button">
+        <item name="radio_btn_color">@android:colors/active</item>
+    </string>
+    <string-array name="array_specialities">
+        <item>Select Your Specialities</item>
+        <item>General Physician</item>
+        <item>Paediatrician</item>
+        <item>ENT Specialist</item>
+        <item>Dermatologist</item>
+        <item>Gastroenterologist</item>
+        <item>Gynecologist</item>
+
+    </string-array>
+    <string-array name="array_default_Doctors">
+        <item>Select Your Doctor</item>
+    </string-array>
+    <string-array name="array_General_Physician">
+        <item>Select Your Doctor</item>
+        <item>Dr.Mishra</item>
+        <item>Dr.Komali</item>
+    </string-array>
+    <string-array name="array_Paediatrician">
+        <item>Select Your Doctor</item>
+        <item>Dr.Shwetha</item>
+        <item>Dr.Rohan</item>
+    </string-array>
+    <string-array name="array_ENT_Specialist">
+        <item>Select Your Doctor</item>
+        <item>Dr.Vijaya</item>
+        <item>Dr.Abdul</item>
+    </string-array>
+    <string-array name="array_Dermatologist">
+        <item>Select Your Doctor</item>
+        <item>Dr.Swapna</item>
+        <item>Dr.Ramesh</item>
+    </string-array>
+    <string-array name="array_Gastroenterologist">
+        <item>Select Your Doctor</item>
+        <item>Dr.Suresh</item>
+        <item>Dr.Kumar</item>
+    </string-array>
+    <string-array name="array_Gynecologist">
+        <item>Select Your Doctor</item>
+        <item>Dr.Bhagya</item>
+        <item>Dr.Geetha</item>
+    </string-array>
+    <string-array name="array_default_Time_slots">
+        <item>Select Time Slot</item>
+    </string-array>
+    <string-array name="array_Mishra">
+        <item>Select Time Slot</item>
+        <item>9:00 AM - 9:30 AM</item>
+        <item>9:30 AM - 10:00 AM</item>
+        <item>10:00 AM - 10:30 AM</item>
+        <item>10:30 AM - 11:00 AM</item>
+        <item>11:00 AM - 11:30 AM</item>
+        <item>11:30 AM - 12:00 AM</item>
+        <item>12:00 PM - 12:30 PM</item>
+
+    </string-array>
+    <string-array name="array_Komali">
+        <item>Select Time Slot</item>
+        <item>14:30 PM - 15:00 PM</item>
+        <item>15:00 PM - 15:30 PM</item>
+        <item>16:30 PM - 17:00 PM</item>
+        <item>17:00 PM - 17:30 PM</item>
+        <item>17:30 PM - 18:00 PM</item>
+        <item>18:00 PM - 18:30 PM</item>
+        <item>18:30 PM - 19:00 PM</item>
+        <item>19:00 PM - 19:30 PM</item>
+        <item>17:30 PM - 18:00 PM</item>
+        <item>18:00 PM - 18:30 PM</item>
+        <item>18:30 PM - 19:00 PM</item>
+        <item>19:00 PM - 19:30 PM</item>
+
+
+    </string-array>
+
+
+    <string-array name="array_Shwetha">
+        <item>Select Time Slot</item>
+        <item>13:30 PM - 14:00 PM</item>
+        <item>14:00 PM - 14:30 PM</item>
+        <item>14:30 PM - 15:00 PM</item>
+        <item>15:00 PM - 15:30 PM</item>
+        <item>16:30 PM - 17:00 PM</item>
+        <item>17:00 PM - 17:30 PM</item>
+        <item>17:30 PM - 18:00 PM</item>
+        <item>18:00 PM - 18:30 PM</item>
+        <item>18:30 PM - 19:00 PM</item>
+        <item>19:00 PM - 19:30 PM</item>
+        <item>17:30 PM - 18:00 PM</item>
+        <item>18:00 PM - 18:30 PM</item>
+        <item>18:30 PM - 19:00 PM</item>
+        <item>19:00 PM - 19:30 PM</item>
+    </string-array>
+    <string-array name="array_Rohan">
+        <item>Select Time Slot</item>
+        <item>17:30 PM - 18:00 PM</item>
+        <item>18:00 PM - 18:30 PM</item>
+        <item>18:30 PM - 19:00 PM</item>
+        <item>19:00 PM - 19:30 PM</item>
+        <item>17:30 PM - 18:00 PM</item>
+        <item>18:00 PM - 18:30 PM</item>
+        <item>18:30 PM - 19:00 PM</item>
+        <item>19:00 PM - 19:30 PM</item>
+    </string-array>
+    <string-array name="array_Vijaya">
+        <item>Select Time Slot</item>
+        <item>9:00 AM - 9:30 AM</item>
+        <item>9:30 AM - 10:00 AM</item>
+        <item>10:00 AM - 10:30 AM</item>
+        <item>10:30 AM - 11:00 AM</item>
+        <item>11:00 AM - 11:30 AM</item>
+        <item>11:30 AM - 12:00 AM</item>
+    </string-array>
+    <string-array name="array_Abdul">
+        <item>Select Time Slot</item>
+        <item>9:00 AM - 9:30 AM</item>
+        <item>9:30 AM - 10:00 AM</item>
+        <item>10:00 AM - 10:30 AM</item>
+        <item>10:30 AM - 11:00 AM</item>
+        <item>11:00 AM - 11:30 AM</item>
+        <item>11:30 AM - 12:00 AM</item>
+        <item>12:00 PM - 12:30 PM</item>
+    </string-array>
+    <string-array name="array_Swapna">
+        <item>Select Time Slot</item>
+        <item>14:30 PM - 15:00 PM</item>
+        <item>15:00 PM - 15:30 PM</item>
+        <item>16:30 PM - 17:00 PM</item>
+        <item>17:00 PM - 17:30 PM</item>
+        <item>17:30 PM - 18:00 PM</item>
+        <item>18:00 PM - 18:30 PM</item>
+        <item>18:30 PM - 19:00 PM</item>
+        <item>19:00 PM - 19:30 PM</item>
+    </string-array>
+    <string-array name="array_Ramesh">
+        <item>Select Time Slot</item>
+        <item>10:00 AM - 10:30 AM</item>
+        <item>10:30 AM - 11:00 AM</item>
+        <item>11:00 AM - 11:30 AM</item>
+        <item>11:30 AM - 12:00 AM</item>
+        <item>12:00 PM - 12:30 PM</item>
+        <item>19.00 PM - 19.30PM</item>
+        <item>19:30 PM - 20:00 PM</item>
+        <item>20:00 PM - 20:30 PM</item>
+        <item>20:30 PM - 21:00 PM</item>
+        <item>21:00 PM - 21:30 PM</item>
+
+    </string-array>
+    <string-array name="array_Suresh">
+        <item>Select Time Slot</item>
+        <item>16:30 PM - 17:00 PM</item>
+        <item>17:00 PM - 17:30 PM</item>
+        <item>17:30 PM - 18:00 PM</item>
+        <item>18:00 PM - 18:30 PM</item>
+        <item>18:30 PM - 19:00 PM</item>
+        <item>19:00 PM - 19:30 PM</item>
+        <item>19.00 PM - 19.30PM</item>
+        <item>19:30 PM - 20:00 PM</item>
+        <item>20:00 PM - 20:30 PM</item>
+        <item>20:30 PM - 21:00 PM</item>
+        <item>21:00 PM - 21:30 PM</item>
+    </string-array>
+    <string-array name="array_Kumar">
+        <item>Select Time Slot</item>
+        <item>10:00 AM - 10:30 AM</item>
+        <item>10:30 AM - 11:00 AM</item>
+        <item>11:00 AM - 11:30 AM</item>
+        <item>11:30 AM - 12:00 AM</item>
+        <item>12:00 PM - 12:30 PM</item>
+        <item>13:30 PM - 14:00 PM</item>
+        <item>14:00 PM - 14:30 PM</item>
+    </string-array>
+    <string-array name="array_Bhagya">
+        <item>Select Time Slot</item>
+        <item>15:00 PM - 15:30 PM</item>
+        <item>16:30 PM - 17:00 PM</item>
+        <item>17:00 PM - 17:30 PM</item>
+        <item>17:30 PM - 18:00 PM</item>
+        <item>18:00 PM - 18:30 PM</item>
+        <item>18:30 PM - 19:00 PM</item>
+        <item>19:00 PM - 19:30 PM</item>
+        <item>17:30 PM - 18:00 PM</item>
+        <item>18:00 PM - 18:30 PM</item>
+        <item>18:30 PM - 19:00 PM</item>
+        <item>19:00 PM - 19:30 PM</item>
+
+    </string-array>
+    <string-array name="array_Geetha">
+        <item>Select Time Slot</item>
+        <item>9:00 AM - 9:30 AM</item>
+        <item>9:30 AM - 10:00 AM</item>
+        <item>10:00 AM - 10:30 AM</item>
+        <item>10:30 AM - 11:00 AM</item>
+        <item>11:00 AM - 11:30 AM</item>
+        <item>11:30 AM - 12:00 AM</item>
+        <item>12:00 PM - 12:30 PM</item>
+    </string-array>
+    <string-array name="array_Doctors">
+        <item>Select Your Doctor</item>
+        <item>Dr.Mishra</item>
+        <item>Dr.Komali</item>
+        <item>Dr.Shwetha</item>
+        <item>Dr.Rohan</item>
+        <item>Dr.Vijaya</item>
+        <item>Dr.Abdul</item>
+        <item>Dr.Swapna</item>
+        <item>Dr.Ramesh</item>
+        <item>Dr.Suresh</item>
+        <item>Dr.Kumar</item>
+        <item>Dr.Bhagya</item>
+        <item>Dr.Geetha</item>
+    </string-array>
+
+
 </resources>

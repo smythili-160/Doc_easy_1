@@ -43,7 +43,7 @@ public class doc_login_page extends AppCompatActivity {
         doc_signupRedirectText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(doc_login_page.this, doc_signup_page.class);
+                Intent intent = new Intent(doc_login_page.this, doc_signup_front_page.class);
                 startActivity(intent);
                 finish();
             }

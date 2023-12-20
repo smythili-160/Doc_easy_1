@@ -1,9 +1,11 @@
-package com.example.doc_easy_1;
+package com.example.doc_easy_1 ;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -14,7 +16,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.doc_easy_1.R;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -31,11 +32,13 @@ import java.util.Objects;
 public class NewAppointmentPageContinued extends AppCompatActivity implements AppointmentIDCallback {
     FirebaseFirestore firestore;
     TextView textViewDate, textPatientName;
-    EditText editTextType, editTextDoctorName, editTextMedicalRemarks;
-    Spinner spinnerTimeSlots;
+    EditText editTextMedicalRemarks;
+    Spinner spinnerSpecialities, spinnerDoctors, spinnerTimeSlots;
+    ArrayAdapter<CharSequence> SpecialitiesAdapter, DoctorsAdapter, TimeslotsAdapter;
+
     Button confirmAppointmentBtn;
     RadioButton radioButtonOutPatient, radioButtonInPatient;
-    String apptName, apptGender, apptPhoneNumber, apptAddress, apptType, apptDoctorName, apptInOrOut, apptDate, apptTimeSlot, apptMedicalRemarks, apptID;
+    String selectedspecialities, selectedDoctors, selectedTimeslots,apptName, apptGender, apptPhoneNumber, apptAddress, apptType, apptDoctorName, apptInOrOut, apptDate, apptTimeSlot, apptMedicalRemarks, apptID;
     int apptAge;
     private DatePickerDialog.OnDateSetListener dateSetListener;
 
@@ -48,14 +51,168 @@ public class NewAppointmentPageContinued extends AppCompatActivity implements Ap
         //Finding Views by IDs
         textViewDate = findViewById(R.id.textViewDate);
         textPatientName = findViewById(R.id.textPatientName);
-        editTextType = findViewById(R.id.editTextType);
-        editTextDoctorName = findViewById(R.id.editTextDoctorName);
+
         radioButtonOutPatient = findViewById(R.id.radioButtonOutPatient);
         radioButtonInPatient = findViewById(R.id.radioButtonInPatient);
         spinnerTimeSlots = findViewById(R.id.spinnerTimeSlots);
         editTextMedicalRemarks = findViewById(R.id.editTextMedicalRemarks);
         confirmAppointmentBtn = findViewById(R.id.confirmAppointmentBtn);
         firestore = FirebaseFirestore.getInstance();
+        spinnerSpecialities = findViewById(R.id.spinnerSpecialities);    //Finds a view that was identified by the android:id attribute
+
+        //Country Spinner Initialisation
+        SpecialitiesAdapter = ArrayAdapter.createFromResource(this,
+                R.array.array_specialities, R.layout.spinner_layout);
+
+        // Specify the layout to use when the list of choices appear
+        SpecialitiesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinnerSpecialities.setAdapter(SpecialitiesAdapter);            //Set the adapter to the spinner to populate the Country Spinner
+
+        spinnerSpecialities.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                //State Spinner Initialisation
+                spinnerDoctors = findViewById(R.id.spinnerDoctors);    //Finds a view that was identified by the android:id attribute in xml
+                selectedspecialities = spinnerSpecialities.getSelectedItem().toString();
+
+                int parentID = parent.getId();
+                if (parentID == R.id.spinnerSpecialities) {
+                    switch (selectedspecialities) {
+                        case "Select Your Specialities":
+                            DoctorsAdapter = ArrayAdapter.createFromResource(parent.getContext(),
+                                    R.array.array_default_Doctors, R.layout.spinner_layout);
+                            break;
+
+                        case "General Physician":
+                            DoctorsAdapter = ArrayAdapter.createFromResource(parent.getContext(),
+                                    R.array.array_General_Physician, R.layout.spinner_layout);
+                            break;
+                        case "Paediatrician":
+                            DoctorsAdapter = ArrayAdapter.createFromResource(parent.getContext(),
+                                    R.array.array_Paediatrician, R.layout.spinner_layout);
+                            break;
+                        case "ENT Specialist":
+                            DoctorsAdapter = ArrayAdapter.createFromResource(parent.getContext(),
+                                    R.array.array_ENT_Specialist, R.layout.spinner_layout);
+                            break;
+                        case "Dermatologist":
+                            DoctorsAdapter = ArrayAdapter.createFromResource(parent.getContext(),
+                                    R.array.array_Dermatologist, R.layout.spinner_layout);
+                            break;
+                        case "Gastroenterologist":
+                            DoctorsAdapter = ArrayAdapter.createFromResource(parent.getContext(),
+                                    R.array.array_Gastroenterologist, R.layout.spinner_layout);
+                            break;
+                        case "Gynecologist":
+                            DoctorsAdapter = ArrayAdapter.createFromResource(parent.getContext(),
+                                    R.array.array_Gynecologist, R.layout.spinner_layout);
+                            break;
+                        default:
+                            break;
+                    }
+
+                    // Specify the layout to use when the list of choices appear
+                    DoctorsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                    spinnerDoctors.setAdapter(DoctorsAdapter);            //Set the adapter to the spinner to populate the State Spinner
+
+                    //When any item of the spinnerDoctors is selected
+                    spinnerDoctors.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                            //Define City Spinner but we will populate the options through the selected state
+                            spinnerTimeSlots = findViewById(R.id.spinnerTimeSlots);
+                            selectedDoctors = spinnerDoctors.getSelectedItem().toString();      //Obtain the selected State
+
+                            int parentID = parent.getId();
+                            if (parentID == R.id.spinnerDoctors) {
+                                switch (selectedDoctors) {
+
+                                    case "Select Your Doctor":
+                                        TimeslotsAdapter = ArrayAdapter.createFromResource(parent.getContext(),
+                                                R.array.array_default_Time_slots, R.layout.spinner_layout);
+                                        break;
+                                    case "Dr.Mishra":
+                                        TimeslotsAdapter = ArrayAdapter.createFromResource(parent.getContext(),
+                                                R.array.array_Mishra, R.layout.spinner_layout);
+                                        break;
+                                    case "Dr.Komali":
+                                        TimeslotsAdapter = ArrayAdapter.createFromResource(parent.getContext(),
+                                                R.array.array_Komali, R.layout.spinner_layout);
+                                        break;
+                                    case "Dr.Shwetha":
+                                        TimeslotsAdapter = ArrayAdapter.createFromResource(parent.getContext(),
+                                                R.array.array_Shwetha, R.layout.spinner_layout);
+                                        break;
+                                    case "Dr.Rohan":
+                                        TimeslotsAdapter = ArrayAdapter.createFromResource(parent.getContext(),
+                                                R.array.array_Rohan, R.layout.spinner_layout);
+                                        break;
+                                    case "Dr.Vijaya":
+                                        TimeslotsAdapter = ArrayAdapter.createFromResource(parent.getContext(),
+                                                R.array.array_Vijaya, R.layout.spinner_layout);
+                                        break;
+                                    case "Dr.Abdul":
+                                        TimeslotsAdapter = ArrayAdapter.createFromResource(parent.getContext(),
+                                                R.array.array_Abdul, R.layout.spinner_layout);
+                                        break;
+                                    case "Dr.Swapna":
+                                        TimeslotsAdapter = ArrayAdapter.createFromResource(parent.getContext(),
+                                                R.array.array_Swapna, R.layout.spinner_layout);
+                                        break;
+                                    case "Dr.Suresh":
+                                        TimeslotsAdapter = ArrayAdapter.createFromResource(parent.getContext(),
+                                                R.array.array_Suresh, R.layout.spinner_layout);
+                                        break;
+                                    case "Dr.Kumar":
+                                        TimeslotsAdapter = ArrayAdapter.createFromResource(parent.getContext(),
+                                                R.array.array_Kumar, R.layout.spinner_layout);
+                                        break;
+                                    case "Dr.Bhagya":
+                                        TimeslotsAdapter = ArrayAdapter.createFromResource(parent.getContext(),
+                                                R.array.array_Bhagya, R.layout.spinner_layout);
+                                        break;
+                                    case "Dr.Geetha":
+                                        TimeslotsAdapter = ArrayAdapter.createFromResource(parent.getContext(),
+                                                R.array.array_Geetha, R.layout.spinner_layout);
+                                        break;
+                                    default:
+                                        break;
+                                }
+
+                                TimeslotsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);     // Specify the layout to use when the list of choices appears
+                                spinnerTimeSlots.setAdapter(TimeslotsAdapter);        //Populate the list of Districts in respect of the State selected
+
+                                //To obtain the selected District from the spinner
+                                spinnerTimeSlots.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                        selectedTimeslots = spinnerTimeSlots.getSelectedItem().toString();
+                                    }
+
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> parent) {
+                                    }
+                                });
+                            }
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
 
         //Initializing date picker dialog
         initDatePicker();
@@ -72,8 +229,8 @@ public class NewAppointmentPageContinued extends AppCompatActivity implements Ap
         confirmAppointmentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                apptType = editTextType.getText().toString();
-                apptDoctorName = editTextDoctorName.getText().toString();
+                apptType = spinnerSpecialities.getSelectedItem().toString();
+                apptDoctorName = spinnerDoctors.getSelectedItem().toString();
                 apptTimeSlot = spinnerTimeSlots.getSelectedItem().toString();
                 apptMedicalRemarks = editTextMedicalRemarks.getText().toString().trim();
                 if (radioButtonOutPatient.isChecked()) {

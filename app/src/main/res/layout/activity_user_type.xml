@@ -7,6 +7,7 @@
     android:background="@drawable/userbg_2"
     android:backgroundTint="#80FFFFFF"
     android:backgroundTintMode="src_over"
+
     >
 
 

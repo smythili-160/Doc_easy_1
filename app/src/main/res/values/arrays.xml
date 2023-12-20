@@ -1,8 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="time_slots">
-        <item>9:00 AM - 10:00 AM</item>
-        <item>10:00 AM - 11:00 AM</item>
-        <item>11:00 AM - 11:00 PM</item>
+        <item>10:00 AM - 10:30 AM</item>
+        <item>10:30 AM - 11:00 AM</item>
+        <item>11:00 AM - 11:30 AM</item>
+        <item>11:30 AM - 12:00 AM</item>
+        <item>12:00 PM - 12:30 PM</item>
+        <item>13:30 PM - 14:00 PM</item>
+        <item>14:00 PM - 14:30 PM</item>
+        <item>14:30 PM - 15:00 PM</item>
+        <item>15:00 PM - 15:30 PM</item>
+        <item>16:30 PM - 17:00 PM</item>
+        <item>17:00 PM - 17:30 PM</item>
+        <item>17:30 PM - 18:00 PM</item>
+        <item>18:00 PM - 18:30 PM</item>
+        <item>18:30 PM - 19:00 PM</item>
+        <item>19:00 PM - 19:30 PM</item>
+        <item>17:30 PM - 18:00 PM</item>
+        <item>18:00 PM - 18:30 PM</item>
+        <item>18:30 PM - 19:00 PM</item>
+        <item>19:00 PM - 19:30 PM</item>
     </string-array>
 </resources>

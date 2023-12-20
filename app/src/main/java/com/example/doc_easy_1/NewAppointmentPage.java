@@ -3,6 +3,7 @@ package com.example.doc_easy_1;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -14,7 +15,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class NewAppointmentPage extends AppCompatActivity {
-    ImageView imageViewIcon;
+    ImageView imageViewIcon,backbutton;
     TextView NewAppointmentTitle;
     EditText editTextName, editTextAge, editTextPhoneNumber, editTextAddress;
     RadioGroup radioGroupGender;
@@ -38,6 +39,7 @@ public class NewAppointmentPage extends AppCompatActivity {
         radioGroupGender = findViewById(R.id.radioGroupGender);
         radioButtonMale = findViewById(R.id.radioButtonMale);
         radioButtonFemale = findViewById(R.id.radioButtonFemale);
+        backbutton=findViewById(R.id.backbutton);
         continueBtn = findViewById(R.id.continueBtn);
 
         continueBtn.setOnClickListener(view -> {
@@ -72,6 +74,14 @@ public class NewAppointmentPage extends AppCompatActivity {
                 Intent i = new Intent(NewAppointmentPage.this, NewAppointmentPageContinued.class);
                 i.putExtras(bundle);
                 startActivity(i);
+            }
+        });
+        backbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(NewAppointmentPage.this, rec_home_page.class);
+                startActivity(intent);
+                finish();
             }
         });
 

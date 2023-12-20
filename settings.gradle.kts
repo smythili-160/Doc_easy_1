@@ -13,5 +13,6 @@ dependencyResolutionManagement {
     }
 }
 
+
 rootProject.name = "Doc_easy_1"
 include(":app")

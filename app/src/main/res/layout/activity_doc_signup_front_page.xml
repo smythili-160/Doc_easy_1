@@ -9,11 +9,11 @@
     android:backgroundTint="#80FFFFFF"
     android:backgroundTintMode="src_over"
     android:gravity="center"
-    tools:context=".doc_signup_page">
+    tools:context=".doc_signup_front_page">
 
     <LinearLayout
-        android:layout_width="364dp"
-        android:layout_height="491dp"
+        android:layout_width="388dp"
+        android:layout_height="709dp"
         android:layout_gravity="center_horizontal"
         android:orientation="vertical"
         android:padding="24dp"
@@ -34,51 +34,84 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/doc_signup_email"
+            android:id="@+id/doc_signup_name"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="40dp"
             android:background="@drawable/white_background"
-            android:drawableLeft="@drawable/baseline_email_24"
+            android:drawableLeft="@drawable/baseline_person_24"
             android:drawablePadding="8dp"
-            android:hint="Email"
+            android:hint="Name"
             android:padding="8dp"
             android:textColor="@color/black" />
 
 
         <EditText
-            android:id="@+id/doc_signup_password"
+            android:id="@+id/doc_phone_number"
+            android:layout_width="match_parent"
+            android:layout_height="51dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/white_background"
+            android:drawableLeft="@drawable/baseline_phone_24"
+            android:drawablePadding="8dp"
+            android:hint="Phone number"
+            android:padding="8dp"
+            android:textColor="@color/black" />
+
+        <EditText
+            android:id="@+id/doc_signup_username"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/white_background"
-            android:drawableLeft="@drawable/baseline_lock_24"
+            android:drawableLeft="@drawable/baseline_person_pin_24"
             android:drawablePadding="8dp"
-            android:hint="Password"
-            android:inputType="textPassword"
+            android:hint="Username"
+            android:padding="8dp"
+            android:textColor="@color/black" />
+
+        <EditText
+            android:id="@+id/doc_speciality"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/white_background"
+            android:drawablePadding="8dp"
+            android:hint="Speciality"
+            android:padding="8dp"
+            android:textColor="@color/black" />
+
+        <EditText
+            android:id="@+id/doc_experience"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/white_background"
+            android:drawablePadding="8dp"
+            android:hint="Experience"
+            android:padding="8dp"
+            android:textColor="@color/black" />
+
+        <EditText
+            android:id="@+id/doc_Time_Slots"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/white_background"
+            android:drawablePadding="8dp"
+            android:hint="Working Shifts"
             android:padding="8dp"
             android:textColor="@color/black" />
 
         <Button
-            android:id="@+id/doc_signup_button"
+            android:id="@+id/continueBtn"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginTop="30dp"
             android:backgroundTint="@color/active"
-            android:text="Sign Up"
+            android:text="Continue"
             android:textSize="18sp"
             app:cornerRadius="20dp" />
-
-        <Button
-            android:id="@+id/doc_loginRedirectText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:padding="8dp"
-            android:text="Already an user? Login"
-            android:textColor="@color/white"
-            android:textSize="18sp" />
 
 
     </LinearLayout>
