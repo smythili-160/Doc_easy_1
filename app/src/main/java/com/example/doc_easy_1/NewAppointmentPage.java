@@ -74,6 +74,7 @@ public class NewAppointmentPage extends AppCompatActivity {
                 Intent i = new Intent(NewAppointmentPage.this, NewAppointmentPageContinued.class);
                 i.putExtras(bundle);
                 startActivity(i);
+                //test
             }
         });
         backbutton.setOnClickListener(new View.OnClickListener() {
