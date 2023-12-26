@@ -79,6 +79,14 @@
             android:textColor="@color/white"
             android:textSize="18sp" />
 
+        <ProgressBar
+            android:id="@+id/progressBar2"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/WhiteAccent"
+            android:visibility="invisible" />
+
     </LinearLayout>
 
     <ImageView

@@ -21,4 +21,7 @@
     </style>
     <style name="Theme.Doc_easy_1.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="Theme.Doc_easy_1.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="WhiteAccent">
+        <item name="colorAccent">@color/white</item> <!-- Whatever color you want-->
+    </style>
 </resources>

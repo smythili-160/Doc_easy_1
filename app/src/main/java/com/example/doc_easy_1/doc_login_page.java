@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -27,6 +28,12 @@ public class doc_login_page extends AppCompatActivity {
     Button doc_login_button,doc_signupRedirectText;
     ImageView backbutton;
     FirebaseAuth dAuth;
+    ProgressBar progressBar4;
+    private void startMainActivity(FirebaseUser user) {
+        Intent intent = new Intent(doc_login_page.this, doc_home_page.class);
+        startActivity(intent);
+        finish();
+    }
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -37,8 +44,15 @@ public class doc_login_page extends AppCompatActivity {
         doc_login_password = findViewById(R.id.doc_login_password);
         doc_login_button = findViewById(R.id.doc_login_button);
         doc_signupRedirectText = findViewById(R.id.doc_signupRedirectText);
+        progressBar4=findViewById(R.id.progressBar4);
         backbutton=findViewById(R.id.backbutton);
         dAuth=FirebaseAuth.getInstance();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            // User is signed in, open MainActivity
+            startMainActivity(user);
+            return; // Finish the current activity to prevent going back to it
+        }
 
         doc_signupRedirectText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,14 +76,17 @@ public class doc_login_page extends AppCompatActivity {
                     Toast.makeText( doc_login_page.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                progressBar4.setVisibility(View.VISIBLE);
                 dAuth.signInWithEmailAndPassword(doc_email, doc_password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            progressBar4.setVisibility(View.INVISIBLE);
                             startActivity(new Intent(getApplicationContext(),doc_home_page.class));
                             Toast.makeText(doc_login_page.this, "login successful", Toast.LENGTH_SHORT).show();
                             finish();
                         } else {
+                            progressBar4.setVisibility(View.INVISIBLE);
                             Toast.makeText(doc_login_page.this, "login unsuccessful", Toast.LENGTH_SHORT).show();
 
                         }

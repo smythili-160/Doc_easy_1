@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +33,7 @@ public class doc_signup_page extends AppCompatActivity {
     FirebaseAuth dAuth;
     FirebaseFirestore doc_user;
     String doc_name,doc_username,doc_phno,doc_spec,doc_exp,doc_ts,userID;
+    ProgressBar progressBar3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,7 @@ public class doc_signup_page extends AppCompatActivity {
         doc_loginRedirectText = findViewById(R.id.doc_loginRedirectText);
         doc_signup_button = findViewById(R.id.doc_signup_button);
         dAuth=FirebaseAuth.getInstance();
+        progressBar3=findViewById(R.id.progressBar3);
         doc_user=FirebaseFirestore.getInstance();
         doc_loginRedirectText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,10 +83,7 @@ public class doc_signup_page extends AppCompatActivity {
                     Toast.makeText( doc_signup_page.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
-
-
-
+                progressBar3.setVisibility(View.VISIBLE);
                 dAuth.createUserWithEmailAndPassword(doc_email, doc_password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -108,11 +108,12 @@ public class doc_signup_page extends AppCompatActivity {
 
                                 }
                             });
-
+                            progressBar3.setVisibility(View.INVISIBLE);
                             Intent intent=new Intent(doc_signup_page.this,doc_home_page.class);
                             startActivity(intent);
                             finish();
                         } else {
+                            progressBar3.setVisibility(View.INVISIBLE);
                             Toast.makeText(doc_signup_page.this, "user creation unsuccessful", Toast.LENGTH_SHORT).show();
 
                         }

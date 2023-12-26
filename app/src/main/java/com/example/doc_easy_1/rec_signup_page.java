@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +35,7 @@ public class rec_signup_page extends AppCompatActivity {
     Button rec_signup_button;
     FirebaseAuth fAuth;
     String userID;
+    ProgressBar progressBar;
     FirebaseFirestore rec_user;
     @SuppressLint("MissingInflatedId")
     @Override
@@ -47,6 +49,7 @@ public class rec_signup_page extends AppCompatActivity {
         rec_signup_password = findViewById(R.id.rec_signup_password);
         rec_loginRedirectText = findViewById(R.id.rec_loginRedirectText);
         rec_signup_button = findViewById(R.id.rec_signup_button);
+        progressBar=findViewById(R.id.progressBar);
         fAuth=FirebaseAuth.getInstance();
         rec_user=FirebaseFirestore.getInstance();
         rec_loginRedirectText.setOnClickListener(new View.OnClickListener() {
@@ -84,6 +87,7 @@ public class rec_signup_page extends AppCompatActivity {
                     Toast.makeText( rec_signup_page.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                progressBar.setVisibility(View.VISIBLE);
 
                 fAuth.createUserWithEmailAndPassword(rec_email, rec_password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
@@ -104,11 +108,12 @@ public class rec_signup_page extends AppCompatActivity {
 
                                         }
                                     });
-
+                                    progressBar.setVisibility(View.INVISIBLE);
                                     Intent intent=new Intent(rec_signup_page.this,rec_home_page.class);
                                     startActivity(intent);
                                     finish();
                                 } else {
+                                    progressBar.setVisibility(View.INVISIBLE);
                                     Toast.makeText(rec_signup_page.this, "user creation unsuccessful", Toast.LENGTH_SHORT).show();
 
                                 }

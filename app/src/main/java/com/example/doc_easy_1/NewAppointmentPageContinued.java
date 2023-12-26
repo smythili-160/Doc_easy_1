@@ -3,6 +3,7 @@ package com.example.doc_easy_1 ;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,13 +14,18 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -29,7 +35,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
-public class NewAppointmentPageContinued extends AppCompatActivity implements AppointmentIDCallback {
+public class NewAppointmentPageContinued extends AppCompatActivity {
     FirebaseFirestore firestore;
     TextView textViewDate, textPatientName;
     EditText editTextMedicalRemarks;
@@ -240,68 +246,14 @@ public class NewAppointmentPageContinued extends AppCompatActivity implements Ap
                 } else {
                     Toast.makeText(NewAppointmentPageContinued.this, "In or Out cannot be Empty", Toast.LENGTH_SHORT).show();
                 }
-                saveAppointmentToFirestore();
+
+
+                saveData();
             }
         });
     }
-    private void saveAppointmentToFirestore() {
-        Toast.makeText(this, apptName+apptAge+apptGender+apptPhoneNumber+apptAddress+apptType+apptDoctorName+apptInOrOut+apptDate+apptTimeSlot+apptMedicalRemarks , Toast.LENGTH_LONG).show();
-        saveToAppointmentsCollection();
-        saveToPatientsCollection();
 
-    }
-
-    private void saveToPatientsCollection() {
-
-    }
-
-    private void saveToAppointmentsCollection() {
-        generateAppointmentID(apptDate, this);
-    }
-    private void generateAppointmentID(String apptDate, AppointmentIDCallback callback) {
-        CollectionReference allAppointmentsColleciton = firestore.collection("appointments");
-        String uniqueCode = "A";
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        Date date;
-        try{
-            date = dateFormat.parse(apptDate);
-        }catch(Exception e){
-            e.printStackTrace();
-            return;
-        }
-        String formattedDate = new SimpleDateFormat("dd", Locale.getDefault()).format(date);
-        DocumentReference dateDocumentref = allAppointmentsColleciton.document(formattedDate);
-        dateDocumentref.get()
-                .addOnCompleteListener(task -> {
-                    if(task.isSuccessful()){
-                        DocumentSnapshot dateDocument = task.getResult();
-                        if(dateDocument.exists()){
-//                            long patienCount = dateDocument.getData().size();
-                            String appointmentId = formattedDate+uniqueCode+(apptName.charAt(0));
-                            sendFinalID(appointmentId);
-                            callback.onAppointmentIDGenerated(appointmentId);
-                        }else{
-                            String appointmentId = formattedDate+uniqueCode+"1";
-                            sendFinalID(appointmentId);
-                        }
-                    }else{
-                        Toast.makeText(NewAppointmentPageContinued.this, "Failed to Create Appt ID", Toast.LENGTH_LONG).show();
-                    }
-                });
-    }
-    private void sendFinalID(String appointmentId) {
-        apptID = appointmentId;
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-//        Date date;
-//        try{
-//            date = dateFormat.parse(apptDate);
-//        }catch(Exception e){
-//            e.printStackTrace();
-//            return;
-//        }
-//        String formattedDate = new SimpleDateFormat("dd", Locale.getDefault()).format(date);
-//        String appointmentIDCreated = "A"+formattedDate+apptName.charAt(0)+apptName.charAt(apptName.length()-1);
-        //Mallesh on 16 = A16Mh
+    private void bookAppointment(String appointmentId) {
         Map<String, Object> appointment = new HashMap<>();
         appointment.put("name", apptName);
         appointment.put("age", apptAge);
@@ -313,43 +265,104 @@ public class NewAppointmentPageContinued extends AppCompatActivity implements Ap
         appointment.put("doctor", apptDoctorName);
         appointment.put("date", apptDate);
         appointment.put("time", apptTimeSlot);
-        appointment.put("address", apptAddress);
-
+        appointment.put("appointmentId", appointmentId);
         CollectionReference allAppointmentsCollection = firestore.collection("appointments");
-        allAppointmentsCollection.add(appointment)
-                .addOnCompleteListener(task -> {
-                    if(task.isSuccessful()){
-
-                        CollectionReference allPatientsCollection = firestore.collection("patients");
-                        allPatientsCollection.add(appointment)
-                                .addOnCompleteListener(task1 -> {
-                                    if(task1.isSuccessful()){
-                                        AlertDialog.Builder success = new AlertDialog.Builder(NewAppointmentPageContinued.this);
-                                        success.setMessage("Patients ListAdded Broo!!").setPositiveButton("OK", (dialogInterface, i) -> dialogInterface.dismiss());
-                                        success.show();
-                                    }else{
-                                        Exception e = task1.getException();
-                                        if(e!=null){
-                                            e.printStackTrace();
-                                        }
+        allAppointmentsCollection.whereEqualTo("appointmentId", appointmentId).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if(!queryDocumentSnapshots.isEmpty()) {
+                    AlertDialog.Builder success = new AlertDialog.Builder(NewAppointmentPageContinued.this);
+                    success.setMessage("Appointment already booked").setPositiveButton("OK", (dialogInterface, i) -> {dialogInterface.dismiss(); finish();});
+                    success.show();
+                } else {
+                    allAppointmentsCollection.add(appointment)
+                            .addOnCompleteListener(task -> {
+                                if(task.isSuccessful()){
+                                    AlertDialog.Builder success = new AlertDialog.Builder(NewAppointmentPageContinued.this);
+                                    success.setMessage("Appointment Confirmed").setPositiveButton("OK", (dialogInterface, i) -> {dialogInterface.dismiss(); finish();});
+                                    success.show();
+                                }else{
+                                    Exception e = task.getException();
+                                    if(e!=null){
+                                        e.printStackTrace();
                                     }
-                                }).addOnFailureListener(e -> Toast.makeText(NewAppointmentPageContinued.this, "BADDDDDDDDDDDDDDD", Toast.LENGTH_LONG).show());
-
-
-                        AlertDialog.Builder success = new AlertDialog.Builder(NewAppointmentPageContinued.this);
-                        success.setMessage("Appointment Confirmed Broo!!").setPositiveButton("OK", (dialogInterface, i) -> dialogInterface.dismiss());
-                        success.show();
-                        finish();
-                    }else{
-                        Exception e = task.getException();
-                        if(e!=null){
-                            e.printStackTrace();
-                        }
-                    }
-                }).addOnFailureListener(e -> Toast.makeText(NewAppointmentPageContinued.this, "BADDDDDDDDDDDDDDD", Toast.LENGTH_LONG).show());
-
+                                }
+                            }).addOnFailureListener(e -> Toast.makeText(NewAppointmentPageContinued.this, "BAD", Toast.LENGTH_LONG).show());
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(NewAppointmentPageContinued.this, "Appointment creation unsuccessful", Toast.LENGTH_LONG).show();
+            }
+        });
 
     }
+
+    private void saveToPatientsCollection() {
+        Map<String, Object> appointment = new HashMap<>();
+        appointment.put("name", apptName);
+        appointment.put("age", apptAge);
+        appointment.put("gender", apptGender);
+        appointment.put("inOrOut", apptInOrOut);
+        appointment.put("phoneNumber", apptPhoneNumber);
+        appointment.put("date", apptDate);
+        appointment.put("address", apptAddress);
+        //Save the Patient if not exists
+        CollectionReference allPatientsCollection = firestore.collection("patients");
+        allPatientsCollection.whereEqualTo("phoneNumber", apptPhoneNumber).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if(!queryDocumentSnapshots.isEmpty()) {
+                    Log.d("NewAppointment", "Patient Already exists!");
+                } else {
+                    allPatientsCollection.add(appointment)
+                            .addOnCompleteListener(task1 -> {
+                                if(task1.isSuccessful()){
+                                    Toast.makeText(NewAppointmentPageContinued.this, "New Patient Added!", Toast.LENGTH_LONG).show();
+                                }else{
+                                    Exception e = task1.getException();
+                                    if(e!=null){
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }).addOnFailureListener(e -> Toast.makeText(NewAppointmentPageContinued.this, "New Patient Addition Failed!", Toast.LENGTH_LONG).show());
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(NewAppointmentPageContinued.this, "patient creation unsuccessful", Toast.LENGTH_LONG).show();
+
+            }
+        });
+    }
+
+    private void saveData() {
+        String appointmentId = generateAppointmentID(apptDate);
+        sendFinalID(appointmentId);
+    }
+
+    private String generateAppointmentID(String apptDate) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        Date date;
+        try {
+            date = dateFormat.parse(apptDate);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        String formattedDate = new SimpleDateFormat("ddMMyyyy", Locale.getDefault()).format(date);
+        String appointmentId = formattedDate + apptTimeSlot + apptDoctorName;
+        return appointmentId;
+    }
+    private void sendFinalID(String appointmentId) {
+        apptID = appointmentId;
+        saveToPatientsCollection();
+        bookAppointment(appointmentId);
+    }
+
+
     private void showName() {
         String heyUser = "Hey " + apptName + ",";
         textPatientName.setText(heyUser);
@@ -381,20 +394,5 @@ public class NewAppointmentPageContinued extends AppCompatActivity implements Ap
         apptDate = formattedDate;
         Toast.makeText(this, formattedDate.getClass().getSimpleName(), Toast.LENGTH_LONG).show();
     }
-    @Override
-    public void onAppointmentIDGenerated(String appointmentID) {
-        apptID = appointmentID;
-        saveToAppointmentsCollection();
-    }
 
-    public void saveToPatientsCollections(){
-        Map<String, Object> patient = new HashMap<>();
-        patient.put("name", apptName);
-        patient.put("age", apptAge);
-        patient.put("gender", apptGender);
-        patient.put("inOrOut", apptInOrOut);
-        patient.put("remarks", apptMedicalRemarks);
-        CollectionReference allPatientsCollection = firestore.collection("patients");
-
-    }
 }

@@ -84,6 +84,7 @@ public class NewAppointmentPage extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }
+
         });
 
 

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AllPatients">
+    tools:context=".AllDoctors">
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
@@ -27,7 +27,7 @@
 
 
     <ListView
-        android:id="@+id/listViewForPatients"
+        android:id="@+id/listViewForDoctors"
         android:layout_width="match_parent"
         android:layout_height="631dp"
         android:layout_alignParentTop="true"

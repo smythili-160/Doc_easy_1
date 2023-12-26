@@ -15,13 +15,13 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.195">
+        app:layout_constraintVertical_bias="0.024">
 
         <ImageView
-            android:id="@+id/genderIcon"
+            android:id="@+id/doctorIcon"
             android:layout_width="56dp"
             android:layout_height="58dp"
-            android:src="@drawable/male_icon" />
+            android:src="@drawable/doctor_icon" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -31,22 +31,27 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/nameTextView"
+                android:id="@+id/d_usernameTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Name" />
+                android:text="Username" />
 
             <TextView
-                android:id="@+id/ageTextView"
+                android:id="@+id/d_phoneNumberTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Age" />
+                android:text="PhoneNumber" />
 
             <TextView
-                android:id="@+id/typeTextView"
+                android:id="@+id/d_availabilityTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Type" />
+                android:text="Availability" />
+            <TextView
+                android:id="@+id/d_SpecialityTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Speciality" />
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -43,10 +43,10 @@
                 android:text="Age" />
 
             <TextView
-                android:id="@+id/typeTextView"
+                android:id="@+id/phoneNumberTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Type" />
+                android:text="Phone Number" />
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

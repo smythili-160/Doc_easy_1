@@ -1,6 +1,7 @@
 package com.example.doc_easy_1;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ public class doc_home_page extends AppCompatActivity {
     ImageView doc_profile;
     Button doc_logout_button;
     FirebaseAuth dAuth;
+    CardView myAppointments;
     FirebaseFirestore doc_user;
     public void logout(View view){
         FirebaseAuth.getInstance().signOut();
@@ -28,6 +30,7 @@ public class doc_home_page extends AppCompatActivity {
         setContentView(R.layout.activity_doc_home_page);
         doc_profile=findViewById(R.id.doc_profile);
         doc_logout_button = findViewById(R.id.doc_logout_button);
+        myAppointments = findViewById(R.id.myAppointments);
         dAuth= FirebaseAuth.getInstance();
         doc_user=FirebaseFirestore.getInstance();
         doc_profile.setOnClickListener(new View.OnClickListener() {
@@ -39,6 +42,14 @@ public class doc_home_page extends AppCompatActivity {
             }
         }
         );
+        myAppointments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent AddNewAppt = new Intent(doc_home_page.this, MyAppointments.class);
+
+                startActivity(AddNewAppt);
+            }
+        });
 
 
 

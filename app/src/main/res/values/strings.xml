@@ -80,10 +80,11 @@
         <item>18:00 PM - 18:30 PM</item>
         <item>18:30 PM - 19:00 PM</item>
         <item>19:00 PM - 19:30 PM</item>
-        <item>17:30 PM - 18:00 PM</item>
-        <item>18:00 PM - 18:30 PM</item>
-        <item>18:30 PM - 19:00 PM</item>
-        <item>19:00 PM - 19:30 PM</item>
+        <item>19:30 PM - 20:00 PM</item>
+        <item>20:00 PM - 20:30 PM</item>
+
+        <item>20:30 PM - 21:00 PM</item>
+        <item>21:00 PM - 21:30 PM</item>
 
 
     </string-array>

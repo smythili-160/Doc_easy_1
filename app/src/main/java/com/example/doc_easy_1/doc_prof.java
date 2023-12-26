@@ -20,7 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 public class doc_prof extends AppCompatActivity {
     FirebaseAuth dAuth;
     String userID;
-    ImageView back_button;
+
     FirebaseFirestore doc_user;
     EditText doc_name,doc_email,doc_username,doc_phone_number,doc_speciality,doc_exp,doc_Time_Slots;
 
@@ -37,10 +37,15 @@ public class doc_prof extends AppCompatActivity {
         doc_speciality=findViewById(R.id.doc_speciality);
         doc_exp=findViewById(R.id.doc_exp);
         doc_Time_Slots=findViewById(R.id.doc_Time_Slots);
-        back_button=findViewById(R.id.back_button);
+
         dAuth= FirebaseAuth.getInstance();
         doc_user=FirebaseFirestore.getInstance();
-        userID=dAuth.getCurrentUser().getUid();
+        if(getIntent().getExtras() != null && getIntent().getExtras().getString("doctorID")!= null) {
+           userID = getIntent().getExtras().getString("documentId");
+        } else {
+            userID=dAuth.getCurrentUser().getUid();
+        }
+
 
         DocumentReference documentReference=doc_user.collection("doc_user").document(userID);
         documentReference.addSnapshotListener(doc_prof.this, new EventListener<DocumentSnapshot>() {
@@ -55,14 +60,6 @@ public class doc_prof extends AppCompatActivity {
                 doc_exp.setText(documentSnapshot.getString("Experience"));
                 doc_Time_Slots.setText(documentSnapshot.getString("TimeSlots"));
 
-            }
-        });
-        back_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(doc_prof.this, doc_home_page.class);
-                startActivity(intent);
-                finish();
             }
         });
 

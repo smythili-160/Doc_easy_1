@@ -1,12 +1,8 @@
 package com.example.doc_easy_1;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
-import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -15,9 +11,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.TextView;
 
-import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -26,11 +21,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
 public class rec_home_page extends AppCompatActivity {
-    CardView addNewAppointment,handovers,patientsList;
+    CardView addNewAppointment,handovers,AppointmentsList,All_doctors,All_patients;
     ImageView rec_profile;
     Button rec_logout_button;
     FirebaseFirestore rec_user;
-    EditText welcome_username;
+    TextView welcome_username;
     FirebaseAuth fAuth;
 
     String userID;
@@ -44,11 +39,13 @@ public class rec_home_page extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rec_home_page);
+        All_doctors=findViewById(R.id.All_doctors);
         addNewAppointment = findViewById(R.id.addNewAppointment);
         handovers = findViewById(R.id.handovers);
         rec_profile=findViewById(R.id.rec_profile);
         rec_logout_button = findViewById(R.id.rec_logout_button);
         welcome_username = findViewById(R.id.welcome_username);
+        All_patients=findViewById(R.id.All_patients);
         fAuth= FirebaseAuth.getInstance();
         rec_user=FirebaseFirestore.getInstance();
         addNewAppointment.setOnClickListener(new View.OnClickListener() {
@@ -77,11 +74,11 @@ public class rec_home_page extends AppCompatActivity {
                 welcome_username.setText(documentSnapshot.getString("rec_username"));
             }
         });
-        patientsList = findViewById(R.id.patientsList);
-        patientsList.setOnClickListener(new View.OnClickListener() {
+        AppointmentsList = findViewById(R.id.AppointmentsList);
+        AppointmentsList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent AddNewAppt = new Intent(rec_home_page.this, AllPatients.class);
+                Intent AddNewAppt = new Intent(rec_home_page.this, AllAppointments.class);
                 startActivity(AddNewAppt);
             }
         });
@@ -94,6 +91,23 @@ public class rec_home_page extends AppCompatActivity {
                 startActivity(AddNewAppt);
             }
         });
+        All_doctors.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent AddNewAppt = new Intent(rec_home_page.this, AllDoctors.class);
+                startActivity(AddNewAppt);
+
+            }
+        });
+        All_patients.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent AddNewAppt = new Intent(rec_home_page.this, AllPatients.class);
+                startActivity(AddNewAppt);
+
+            }
+        });
+
     }
 
 }

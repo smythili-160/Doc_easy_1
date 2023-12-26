@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AllPatients">
+    tools:context=".AllAppointments">
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
@@ -23,19 +23,31 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
+
+
     </RelativeLayout>
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipGroup"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_marginTop="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/listViewForAppointments"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/relativeLayout"
+        app:layout_constraintVertical_bias="0.5" />
+
 
 
     <ListView
-        android:id="@+id/listViewForPatients"
+        android:id="@+id/listViewForAppointments"
         android:layout_width="match_parent"
-        android:layout_height="631dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="61dp"
-        android:layout_marginBottom="39dp"
+        android:layout_height="543dp"
+        android:layout_below="@+id/chipGroup"
+        android:layout_marginTop="44dp"
         android:focusable="true"
         android:focusableInTouchMode="true" />
-
 
 </RelativeLayout>

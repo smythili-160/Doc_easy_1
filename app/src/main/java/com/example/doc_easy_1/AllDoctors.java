@@ -20,28 +20,28 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class AllPatients extends AppCompatActivity {
-    ListView listViewForPatients;
-    ArrayList<Patient> patientArrayList;
-    PatientAdapter patientAdapter;
-    FirebaseFirestore patients;
+public class AllDoctors extends AppCompatActivity {
+    ListView listViewForDoctors;
+    ArrayList<Doctor> doctorArrayList;
+    DoctorAdapter doctorAdapter;
+    FirebaseFirestore doc_user;
     Toolbar tb;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_all_patients);
-        listViewForPatients = findViewById(R.id.listViewForPatients);
+        setContentView(R.layout.activity_all_doctors);
+        listViewForDoctors = findViewById(R.id.listViewForDoctors);
         tb = findViewById(R.id.toolbar);
         setSupportActionBar(tb);
-        patients = FirebaseFirestore.getInstance();
-        patientArrayList = new ArrayList<Patient>();
-        patientAdapter = new PatientAdapter(AllPatients.this, patientArrayList);
+        doc_user = FirebaseFirestore.getInstance();
+        doctorArrayList = new ArrayList<Doctor>();
+        doctorAdapter = new DoctorAdapter(AllDoctors.this, doctorArrayList);
         EventChangeListener();
-        listViewForPatients.setAdapter(patientAdapter);
+        listViewForDoctors.setAdapter(doctorAdapter);
     }
 
     private void EventChangeListener() {
-        patients.collection("patients").orderBy("name", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        doc_user.collection("doc_user").orderBy("username", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 if (error != null) {
@@ -50,11 +50,11 @@ public class AllPatients extends AppCompatActivity {
                 }
                 for (DocumentChange dc : value.getDocumentChanges()) {
                     if (dc.getType() == DocumentChange.Type.ADDED) {
-                        Patient patient = dc.getDocument().toObject(Patient.class);
-                        patient.setMid(dc.getDocument().getId());
-                        patientArrayList.add(patient);
+                        Doctor doctor = dc.getDocument().toObject(Doctor.class);
+                        doctor.setMid(dc.getDocument().getId());
+                        doctorArrayList.add(doctor);
                     }
-                    patientAdapter.notifyDataSetChanged();
+                    doctorAdapter.notifyDataSetChanged();
                 }
             }
         });
@@ -80,31 +80,32 @@ public class AllPatients extends AppCompatActivity {
 //            if(adapter1!=null){
 //                adapter1.getFilter().filter(newText);
 //            }
-                filterpatientsBySearch(newText);
+                filterdoctorsBySearch(newText);
                 return false;
             }
         });
         return super.onCreateOptionsMenu(menu);
     }
 
-    private void filterpatientsBySearch(String query) {
-        ArrayList<Patient> filterpatients = new ArrayList<>();
+    private void filterdoctorsBySearch(String query) {
+        ArrayList<Doctor> filterdoctors = new ArrayList<>();
 
-        for (Patient patient : patientArrayList) {
-            if (patient.getName().toLowerCase().contains(query.toLowerCase())
-                    || patient.getPhoneNumber().toLowerCase().contains(query.toLowerCase())
-                    ) {
-                filterpatients.add(patient);
+        for (Doctor doctor : doctorArrayList) {
+            if (doctor.getUsername().toLowerCase().contains(query.toLowerCase())
+                    || doctor.getPhoneNumber().toLowerCase().contains(query.toLowerCase())
+                    || doctor.getSpeciality().toLowerCase().contains(query.toLowerCase())) {
+                filterdoctors.add(doctor);
             }
         }
 
-        patientAdapter = new PatientAdapter(AllPatients.this, filterpatients);
-        listViewForPatients.setAdapter(patientAdapter);
+        doctorAdapter = new DoctorAdapter(AllDoctors.this, filterdoctors);
+        listViewForDoctors.setAdapter(doctorAdapter);
     }
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        tb.setTitle("Patients List");
+        tb.setTitle("Doctors List");
     }
+
 }
