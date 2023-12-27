@@ -77,7 +77,7 @@ public class NewAppointmentPage extends AppCompatActivity {
         backbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(NewAppointmentPage.this, rec_home_page.class);
+                Intent intent = new Intent(NewAppointmentPage.this, RecHomePage.class);
                 startActivity(intent);
                 finish();
             }

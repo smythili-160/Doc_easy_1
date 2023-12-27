@@ -4,12 +4,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,6 +32,26 @@ public class MainActivity extends AppCompatActivity {
         backbtn = findViewById(R.id.backbtn);
         nextbtn = findViewById(R.id.nextbtn);
         skipbtn = findViewById(R.id.skipButton);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            // User is signed in, open their
+            SharedPreferences sharedPreferences = MainActivity.this.getSharedPreferences("app", MODE_PRIVATE );
+            String role = sharedPreferences.getString("role", null);
+            if(role != null) {
+                Intent i;
+                if(role.equals("doctor")) {
+                    i = new Intent(MainActivity.this, DocLoginPage.class);
+                } else {
+                    i = new Intent(MainActivity.this, RecLoginPage.class);
+                }
+                startActivity(i);
+                finish();
+            } else {
+                //Do nothing
+            }
+
+        }
 
         backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                     mSLideViewPager.setCurrentItem(getitem(1),true);
                 else {
 
-                    Intent i = new Intent(MainActivity.this,user_type.class);
+                    Intent i = new Intent(MainActivity.this, UserType.class);
                     startActivity(i);
                     finish();
 
@@ -64,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                Intent i = new Intent(MainActivity.this,user_type.class);
+                Intent i = new Intent(MainActivity.this, UserType.class);
                 startActivity(i);
                 finish();
 

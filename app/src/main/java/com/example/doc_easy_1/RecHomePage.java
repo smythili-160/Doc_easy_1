@@ -6,10 +6,10 @@ import androidx.cardview.widget.CardView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,7 +20,7 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
-public class rec_home_page extends AppCompatActivity {
+public class RecHomePage extends AppCompatActivity {
     CardView addNewAppointment,handovers,AppointmentsList,All_doctors,All_patients;
     ImageView rec_profile;
     Button rec_logout_button;
@@ -31,7 +31,9 @@ public class rec_home_page extends AppCompatActivity {
     String userID;
     public void logout(View view){
         FirebaseAuth.getInstance().signOut();
-        startActivity(new Intent(getApplicationContext(),rec_login_page.class));
+        SharedPreferences sharedPreferences = RecHomePage.this.getPreferences( MODE_PRIVATE );
+        sharedPreferences.edit().remove("role").commit();
+        startActivity(new Intent(getApplicationContext(), RecLoginPage.class));
         finish();
     }
     @SuppressLint("MissingInflatedId")
@@ -51,7 +53,7 @@ public class rec_home_page extends AppCompatActivity {
         addNewAppointment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent AddNewAppt = new Intent(rec_home_page.this, NewAppointmentPage.class);
+                Intent AddNewAppt = new Intent(RecHomePage.this, NewAppointmentPage.class);
                 startActivity(AddNewAppt);
             }
         });
@@ -60,7 +62,7 @@ public class rec_home_page extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(rec_home_page.this, rec_prof.class);
+                Intent i = new Intent(RecHomePage.this, RecProf.class);
                 startActivity(i);
             }
         }
@@ -68,7 +70,7 @@ public class rec_home_page extends AppCompatActivity {
         userID=fAuth.getCurrentUser().getUid();
 
         DocumentReference documentReference=rec_user.collection("rec_user").document(userID);
-        documentReference.addSnapshotListener(rec_home_page.this, new EventListener<DocumentSnapshot>() {
+        documentReference.addSnapshotListener(RecHomePage.this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                 welcome_username.setText(documentSnapshot.getString("rec_username"));
@@ -78,7 +80,7 @@ public class rec_home_page extends AppCompatActivity {
         AppointmentsList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent AddNewAppt = new Intent(rec_home_page.this, AllAppointments.class);
+                Intent AddNewAppt = new Intent(RecHomePage.this, AllAppointments.class);
                 startActivity(AddNewAppt);
             }
         });
@@ -87,14 +89,14 @@ public class rec_home_page extends AppCompatActivity {
         handovers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent AddNewAppt = new Intent(rec_home_page.this, AllHandovers.class);
+                Intent AddNewAppt = new Intent(RecHomePage.this, AllHandovers.class);
                 startActivity(AddNewAppt);
             }
         });
         All_doctors.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent AddNewAppt = new Intent(rec_home_page.this, AllDoctors.class);
+                Intent AddNewAppt = new Intent(RecHomePage.this, AllDoctors.class);
                 startActivity(AddNewAppt);
 
             }
@@ -102,7 +104,7 @@ public class rec_home_page extends AppCompatActivity {
         All_patients.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent AddNewAppt = new Intent(rec_home_page.this, AllPatients.class);
+                Intent AddNewAppt = new Intent(RecHomePage.this, AllPatients.class);
                 startActivity(AddNewAppt);
 
             }

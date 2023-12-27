@@ -2,21 +2,14 @@ package com.example.doc_easy_1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 
-
-public class user_type extends AppCompatActivity {
+public class UserType extends AppCompatActivity {
 
     Button doctor,receptionist;
 
@@ -30,7 +23,7 @@ public class user_type extends AppCompatActivity {
         doctor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(user_type.this, doc_login_page.class);
+                Intent i = new Intent(UserType.this, DocLoginPage.class);
                 startActivity(i);
                 finish();
 
@@ -40,7 +33,7 @@ public class user_type extends AppCompatActivity {
                 receptionist.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent i = new Intent(user_type.this, rec_login_page.class);
+                        Intent i = new Intent(UserType.this, RecLoginPage.class);
                         startActivity(i);
                         finish();
 

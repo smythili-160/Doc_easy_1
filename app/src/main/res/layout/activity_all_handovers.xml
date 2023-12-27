@@ -1,50 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".AllHandovers">
 
     <TextView
         android:id="@+id/textView6"
-        android:layout_width="175dp"
+        android:layout_width="wrap_content"
         android:layout_height="44dp"
         android:fontFamily="@font/poppins_bold"
-        android:text="Handovers"
+        android:text="Doctors on leave"
         android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.08" />
+        android:layout_gravity="center_horizontal"
+       />
 
-    <EditText
-        android:id="@+id/handover_details"
-        android:layout_width="331dp"
-        android:layout_height="543dp"
-        android:background="@color/white"
-        android:ems="10"
-        android:fontFamily="@font/poppins_medium"
-        android:gravity="left"
-        android:hint="Handovers"
-        android:inputType="textMultiLine"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.617" />
-    <Button
-        android:id="@+id/save_btn"
-        android:layout_width="180dp"
-        android:layout_height="50dp"
-        android:text="Save"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.976" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+  <ListView
+      android:id="@+id/doctor_leaves"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:visibility="gone"
+      ></ListView>
+
+    <TextView
+        android:id="@+id/emptyElement"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="No Doctors on leave"
+        android:textColor="#525252"
+        android:textSize="19.0sp"
+        android:layout_gravity="center"
+        android:visibility="visible" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

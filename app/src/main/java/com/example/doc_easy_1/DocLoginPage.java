@@ -1,7 +1,5 @@
 package com.example.doc_easy_1;
 
-import static com.example.doc_easy_1.R.id.backbutton;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.AuthResult;
@@ -10,6 +8,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -20,17 +19,15 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 
-public class doc_login_page extends AppCompatActivity {
+public class DocLoginPage extends AppCompatActivity {
     EditText doc_login_email,doc_login_password;
     Button doc_login_button,doc_signupRedirectText;
     ImageView backbutton;
     FirebaseAuth dAuth;
     ProgressBar progressBar4;
     private void startMainActivity(FirebaseUser user) {
-        Intent intent = new Intent(doc_login_page.this, doc_home_page.class);
+        Intent intent = new Intent(DocLoginPage.this, DocHomePage.class);
         startActivity(intent);
         finish();
     }
@@ -57,7 +54,7 @@ public class doc_login_page extends AppCompatActivity {
         doc_signupRedirectText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(doc_login_page.this, doc_signup_front_page.class);
+                Intent intent = new Intent(DocLoginPage.this, DocSignupFrontPage.class);
                 startActivity(intent);
                 finish();
             }
@@ -73,7 +70,7 @@ public class doc_login_page extends AppCompatActivity {
                 }
 
                 if(doc_email.isEmpty() || doc_password.isEmpty()){
-                    Toast.makeText( doc_login_page.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+                    Toast.makeText( DocLoginPage.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 progressBar4.setVisibility(View.VISIBLE);
@@ -82,12 +79,14 @@ public class doc_login_page extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             progressBar4.setVisibility(View.INVISIBLE);
-                            startActivity(new Intent(getApplicationContext(),doc_home_page.class));
-                            Toast.makeText(doc_login_page.this, "login successful", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(getApplicationContext(), DocHomePage.class));
+                            Toast.makeText(DocLoginPage.this, "login successful", Toast.LENGTH_SHORT).show();
+                            SharedPreferences sharedPreferences = DocLoginPage.this.getSharedPreferences("app", MODE_PRIVATE );
+                            sharedPreferences.edit().putString("role", "doctor").commit();
                             finish();
                         } else {
                             progressBar4.setVisibility(View.INVISIBLE);
-                            Toast.makeText(doc_login_page.this, "login unsuccessful", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DocLoginPage.this, "login unsuccessful", Toast.LENGTH_SHORT).show();
 
                         }
                     }
@@ -97,7 +96,7 @@ public class doc_login_page extends AppCompatActivity {
         backbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(doc_login_page.this, user_type.class);
+                Intent intent = new Intent(DocLoginPage.this, UserType.class);
                 startActivity(intent);
                 finish();
             }

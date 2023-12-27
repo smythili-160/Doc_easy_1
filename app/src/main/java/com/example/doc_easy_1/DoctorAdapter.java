@@ -80,7 +80,7 @@ public class DoctorAdapter extends ArrayAdapter<Doctor> {
     }
 
     private void startDoctorDetailsActivity(String doctorID) {
-        Intent intent = new Intent(getContext(), doc_prof.class);
+        Intent intent = new Intent(getContext(), DocProf.class);
         intent.putExtra("documentId", doctorID);
         mContext.startActivity(intent);
     }

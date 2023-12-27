@@ -9,7 +9,7 @@
     android:backgroundTint="#80FFFFFF"
     android:backgroundTintMode="src_over"
     android:gravity="center"
-    tools:context=".doc_signup_page">
+    tools:context=".DocSignupPage">
 
     <LinearLayout
         android:layout_width="364dp"

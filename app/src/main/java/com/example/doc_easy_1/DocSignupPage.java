@@ -8,25 +8,23 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class doc_signup_page extends AppCompatActivity {
+public class DocSignupPage extends AppCompatActivity {
     public static final String TAG = "TAG";
     EditText  doc_signup_email, doc_signup_password;
     Button doc_signup_button,doc_loginRedirectText;
@@ -49,7 +47,7 @@ public class doc_signup_page extends AppCompatActivity {
         doc_loginRedirectText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(doc_signup_page.this, doc_login_page.class);
+                Intent intent = new Intent(DocSignupPage.this, DocLoginPage.class);
                 startActivity(intent);
                 finish();
             }
@@ -69,7 +67,7 @@ public class doc_signup_page extends AppCompatActivity {
                 String doc_password = doc_signup_password.getText().toString().trim();
 
                 if(dAuth.getCurrentUser() != null){
-                    Intent intent=new Intent(new Intent(getApplicationContext(),doc_home_page.class));
+                    Intent intent=new Intent(new Intent(getApplicationContext(), DocHomePage.class));
                     startActivity(intent);
                     finish();
 
@@ -80,7 +78,7 @@ public class doc_signup_page extends AppCompatActivity {
 
 
                 if(doc_name.isEmpty() || doc_email.isEmpty() || doc_password.isEmpty() || doc_username.isEmpty()|| doc_phno.isEmpty()){
-                    Toast.makeText( doc_signup_page.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+                    Toast.makeText( DocSignupPage.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 progressBar3.setVisibility(View.VISIBLE);
@@ -88,8 +86,10 @@ public class doc_signup_page extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(doc_signup_page.this, "user creation successful", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DocSignupPage.this, "user creation successful", Toast.LENGTH_SHORT).show();
                             userID=dAuth.getCurrentUser().getUid();
+                            SharedPreferences sharedPreferences = DocSignupPage.this.getSharedPreferences( "app",MODE_PRIVATE );
+                            sharedPreferences.edit().putString("role", "doctor").commit();
                             DocumentReference documentReference=doc_user.collection("doc_user").document(userID);
                             Map<String,Object> doc_user=new HashMap<>();
 
@@ -109,12 +109,12 @@ public class doc_signup_page extends AppCompatActivity {
                                 }
                             });
                             progressBar3.setVisibility(View.INVISIBLE);
-                            Intent intent=new Intent(doc_signup_page.this,doc_home_page.class);
+                            Intent intent=new Intent(DocSignupPage.this, DocHomePage.class);
                             startActivity(intent);
                             finish();
                         } else {
                             progressBar3.setVisibility(View.INVISIBLE);
-                            Toast.makeText(doc_signup_page.this, "user creation unsuccessful", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DocSignupPage.this, "user creation unsuccessful", Toast.LENGTH_SHORT).show();
 
                         }
                     }

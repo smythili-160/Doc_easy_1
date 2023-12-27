@@ -8,7 +8,7 @@
     android:backgroundTint="#80FFFFFF"
     android:backgroundTintMode="src_over"
     android:gravity="center"
-    tools:context=".rec_login_page">
+    tools:context=".RecLoginPage">
 
     <LinearLayout
         android:id="@+id/linearLayout"

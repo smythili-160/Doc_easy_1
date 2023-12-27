@@ -1,7 +1,5 @@
 package com.example.doc_easy_1;
 
-import static com.example.doc_easy_1.R.id.backbutton;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.AuthResult;
@@ -10,6 +8,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -20,17 +19,15 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 
-public class rec_login_page extends AppCompatActivity {
+public class RecLoginPage extends AppCompatActivity {
     EditText rec_login_email,rec_login_password;
     Button rec_login_button,rec_signupRedirectText;
     ImageView backbutton;
     FirebaseAuth fAuth;
     ProgressBar progressBar2;
     private void startMainActivity(FirebaseUser user) {
-        Intent intent = new Intent(rec_login_page.this, rec_home_page.class);
+        Intent intent = new Intent(RecLoginPage.this, RecHomePage.class);
         startActivity(intent);
         finish();
     }
@@ -59,7 +56,7 @@ public class rec_login_page extends AppCompatActivity {
         rec_signupRedirectText.setOnClickListener(new View.OnClickListener() {
                                                       @Override
                                                       public void onClick(View v) {
-                                                          Intent intent = new Intent(rec_login_page.this, rec_signup_page.class);
+                                                          Intent intent = new Intent(RecLoginPage.this, RecSignupPage.class);
                                                           startActivity(intent);
                                                           finish();
                                                       }
@@ -75,7 +72,7 @@ public class rec_login_page extends AppCompatActivity {
                     }
 
                     if(rec_email.isEmpty() || rec_password.isEmpty()){
-                        Toast.makeText( rec_login_page.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+                        Toast.makeText( RecLoginPage.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
                         return;
                 }
                     progressBar2.setVisibility(View.VISIBLE);
@@ -84,12 +81,14 @@ public class rec_login_page extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     progressBar2.setVisibility(View.INVISIBLE);
-                                    startActivity(new Intent(getApplicationContext(),rec_home_page.class));
-                                    Toast.makeText(rec_login_page.this, "login successful", Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(getApplicationContext(), RecHomePage.class));
+                                    Toast.makeText(RecLoginPage.this, "login successful", Toast.LENGTH_SHORT).show();
+                                    SharedPreferences sharedPreferences = RecLoginPage.this.getSharedPreferences("app", MODE_PRIVATE );
+                                    sharedPreferences.edit().putString("role", "receptionist").commit();
                                     finish();
                                 } else {
                                     progressBar2.setVisibility(View.INVISIBLE);
-                                    Toast.makeText(rec_login_page.this, "login unsuccessful", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(RecLoginPage.this, "login unsuccessful", Toast.LENGTH_SHORT).show();
 
                                 }
                             }
@@ -99,7 +98,7 @@ public class rec_login_page extends AppCompatActivity {
         backbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(rec_login_page.this, user_type.class);
+                Intent intent = new Intent(RecLoginPage.this, UserType.class);
                 startActivity(intent);
                 finish();
             }

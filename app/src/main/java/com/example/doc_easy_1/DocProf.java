@@ -4,11 +4,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -17,7 +14,7 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
-public class doc_prof extends AppCompatActivity {
+public class DocProf extends AppCompatActivity {
     FirebaseAuth dAuth;
     String userID;
 
@@ -48,7 +45,7 @@ public class doc_prof extends AppCompatActivity {
 
 
         DocumentReference documentReference=doc_user.collection("doc_user").document(userID);
-        documentReference.addSnapshotListener(doc_prof.this, new EventListener<DocumentSnapshot>() {
+        documentReference.addSnapshotListener(DocProf.this, new EventListener<DocumentSnapshot>() {
 
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {

@@ -1,56 +1,65 @@
 package com.example.doc_easy_1;
 
-import androidx.annotation.Nullable;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.util.Log;
+import android.widget.ListView;
 
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.Filter;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class AllHandovers extends AppCompatActivity {
-    FirebaseFirestore all_handovers;
-    EditText handover_details;
-    Button save_btn;
+    private FirebaseFirestore firestore;
+    private ListView doctorsOnLeave;
 
+    private DoctorLeavesAdapter leavesAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_handovers);
+        doctorsOnLeave = findViewById(R.id.doctor_leaves);
+        doctorsOnLeave.setEmptyView(findViewById(R.id.emptyElement));
+        firestore = FirebaseFirestore.getInstance();
+        getAndLoadAllDoctorsLeaves();
+    }
 
-        handover_details = findViewById(R.id.handover_details);
-        save_btn = findViewById(R.id.save_btn); // Initialize the save_btn
-
-        all_handovers = FirebaseFirestore.getInstance();
-
-        save_btn.setOnClickListener(new View.OnClickListener() {
+    private void getAndLoadAllDoctorsLeaves() {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        String formattedDate = dateFormat.format(calendar.getTime());
+        firestore.collection("applied_leaves").whereLessThanOrEqualTo("leave_end_date", formattedDate).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
-            public void onClick(View v) {
-                // Use collection instead of DocumentReference
-                CollectionReference collectionReference = all_handovers.collection("all_handover");
-
-                Map<String, Object> allHandoversMap = new HashMap<>();
-                allHandoversMap.put("Handover Details", handover_details.getText().toString());
-
-                // Now, add a new document to the collection with the handover details
-                collectionReference.add(allHandoversMap);
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                Log.d("Handovers", "query success: "+queryDocumentSnapshots.size());
+                ArrayList<Leave> leaveArrayList = new ArrayList<>();
+                for (DocumentChange dc : queryDocumentSnapshots.getDocumentChanges()) {
+                    if (dc.getType() == DocumentChange.Type.ADDED) {
+                        Leave patient = dc.getDocument().toObject(Leave.class);
+                        leaveArrayList.add(patient);
+                    }
+                }
+                leavesAdapter = new DoctorLeavesAdapter(AllHandovers.this, leaveArrayList);
+                doctorsOnLeave.setAdapter(leavesAdapter);
+                leavesAdapter.notifyDataSetChanged();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("Handovers", "failed"+e);
             }
         });
-
-
-
     }
-    }
+}
 
 

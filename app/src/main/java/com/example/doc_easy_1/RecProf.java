@@ -17,7 +17,7 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
-public class rec_prof extends AppCompatActivity {
+public class RecProf extends AppCompatActivity {
     FirebaseAuth fAuth;
     String userID;
     ImageView back_button;
@@ -40,7 +40,7 @@ public class rec_prof extends AppCompatActivity {
         userID=fAuth.getCurrentUser().getUid();
 
         DocumentReference documentReference=rec_user.collection("rec_user").document(userID);
-        documentReference.addSnapshotListener(rec_prof.this, new EventListener<DocumentSnapshot>() {
+        documentReference.addSnapshotListener(RecProf.this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                 rec_name.setText(documentSnapshot.getString("rec_name"));
@@ -52,7 +52,7 @@ public class rec_prof extends AppCompatActivity {
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(rec_prof.this, rec_home_page.class);
+                Intent intent = new Intent(RecProf.this, RecHomePage.class);
                 startActivity(intent);
                 finish();
             }

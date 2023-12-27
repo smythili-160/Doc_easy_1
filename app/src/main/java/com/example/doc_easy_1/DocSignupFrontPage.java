@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class doc_signup_front_page extends AppCompatActivity {
+public class DocSignupFrontPage extends AppCompatActivity {
     EditText doc_signup_name, doc_signup_username,doc_phone_number,doc_speciality,doc_experience,doc_Time_Slots;
     String doc_name,doc_username,doc_phno,doc_spec,doc_exp,doc_ts;
     Button continueBtn;
@@ -38,7 +38,7 @@ public class doc_signup_front_page extends AppCompatActivity {
             if(doc_name.equals("")||doc_phno.equals("")||(doc_spec.equals(""))||(doc_username.equals(""))||(doc_exp.equals(""))||(doc_ts.equals(""))){
                 Toast.makeText(this, "Fields Cannot be Empty", Toast.LENGTH_SHORT).show();
             }else{
-                Toast.makeText(doc_signup_front_page.this, doc_name+doc_username+doc_exp+doc_phno+doc_spec+doc_ts, Toast.LENGTH_SHORT).show();
+                Toast.makeText(DocSignupFrontPage.this, doc_name+doc_username+doc_exp+doc_phno+doc_spec+doc_ts, Toast.LENGTH_SHORT).show();
 
                 Bundle bundle = new Bundle();
                 bundle.putString("name", doc_name);
@@ -48,7 +48,7 @@ public class doc_signup_front_page extends AppCompatActivity {
                 bundle.putString("Experience", doc_exp);
                 bundle.putString("TimeSlots", doc_ts);
 
-                Intent i = new Intent(doc_signup_front_page.this, doc_signup_page.class);
+                Intent i = new Intent(DocSignupFrontPage.this, DocSignupPage.class);
                 i.putExtras(bundle);
                 startActivity(i);
             }

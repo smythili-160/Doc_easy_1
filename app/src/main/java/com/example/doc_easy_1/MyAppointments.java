@@ -51,7 +51,7 @@ public class MyAppointments extends AppCompatActivity {
         setContentView(R.layout.activity_my_appointments_list);
         tb = findViewById(R.id.toolbar);
         setSupportActionBar(tb);
-        selectDate=findViewById(R.id.selectDate);
+        selectDate=findViewById(R.id.StartDate);
         listViewForAppointments = findViewById(R.id.listViewForAppointments);
         appointments = FirebaseFirestore.getInstance();
         mAppointments = new ArrayList<>();

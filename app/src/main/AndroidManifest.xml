@@ -15,7 +15,7 @@
         android:theme="@style/Theme.Doc_easy_1"
         tools:targetApi="31">
         <activity
-            android:name=".applyLeave"
+            android:name=".ApplyLeave"
             android:exported="false" />
         <activity
             android:name=".PatientDetails"
@@ -39,19 +39,19 @@
             android:name=".AllAppointments"
             android:exported="false" />
         <activity
-            android:name=".doc_signup_front_page"
+            android:name=".DocSignupFrontPage"
             android:exported="false" />
         <activity
-            android:name=".doc_prof"
+            android:name=".DocProf"
             android:exported="false" />
         <activity
             android:name=".AllHandovers"
             android:exported="false" />
         <activity
-            android:name=".rec_prof"
+            android:name=".RecProf"
             android:exported="false" />
         <activity
-            android:name=".rec_home_page"
+            android:name=".RecHomePage"
             android:exported="false" />
         <activity
             android:name=".NewAppointmentPageContinued"
@@ -60,22 +60,22 @@
             android:name=".NewAppointmentPage"
             android:exported="false" />
         <activity
-            android:name=".doc_home_page"
+            android:name=".DocHomePage"
             android:exported="false" />
         <activity
-            android:name=".doc_login_page"
+            android:name=".DocLoginPage"
             android:exported="false" />
         <activity
-            android:name=".doc_signup_page"
+            android:name=".DocSignupPage"
             android:exported="false" />
         <activity
-            android:name=".rec_login_page"
+            android:name=".RecLoginPage"
             android:exported="false" />
         <activity
-            android:name=".rec_signup_page"
+            android:name=".RecSignupPage"
             android:exported="false" />
         <activity
-            android:name=".user_type"
+            android:name=".UserType"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
