@@ -33,13 +33,10 @@ public class PatientAdapter extends ArrayAdapter<Patient> {
         super(context, 0, patient);
         pContext = context;
         mpatient = patient;
-        appliedFilters = new ArrayList<>();
+       
     }
 
-    public void setAppliedFilters(List<String> filters) {
-        this.appliedFilters = filters;
-        notifyDataSetChanged();
-    }
+    
 
     @NonNull
     @Override
@@ -59,8 +56,18 @@ public class PatientAdapter extends ArrayAdapter<Patient> {
         } else {
             holder = (PatientAdapter.ViewHolder) convertView.getTag();
         }
+        Patient patient = mpatient.get(position);
 
-        Patient currentpatient = mpatient.get(position);
+//        if (!shouldShowAppointment(patient)) {
+//            convertView.setVisibility(View.GONE);
+//            convertView.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1));
+//        } else {
+        convertView.setVisibility(View.VISIBLE);
+        convertView.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        updateViews(holder, patient);
+        setItemClickAction(convertView, patient);
+//        }
 
         return convertView;
     }

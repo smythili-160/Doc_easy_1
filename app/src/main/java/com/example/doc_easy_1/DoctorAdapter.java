@@ -72,14 +72,14 @@ public class DoctorAdapter extends ArrayAdapter<Doctor> {
         itemView.setOnClickListener(view -> {
             if (doctor != null && doctor.getMid() != null) {
                 String doctorMid = doctor.getMid();
-                startPatientDetailsActivity(doctorMid);
+                startDoctorDetailsActivity(doctorMid);
             } else {
                 Toast.makeText(mContext, "Sorry Doctor ID is Null...", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void startPatientDetailsActivity(String doctorID) {
+    private void startDoctorDetailsActivity(String doctorID) {
         Intent intent = new Intent(getContext(), doc_prof.class);
         intent.putExtra("documentId", doctorID);
         mContext.startActivity(intent);

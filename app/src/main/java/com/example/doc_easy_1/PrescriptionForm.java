@@ -1,5 +1,6 @@
 package com.example.doc_easy_1;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -8,9 +9,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -51,6 +56,7 @@ public class PrescriptionForm extends AppCompatActivity {
             p_inOrOut = extras.getString("inOrOut");
             p_date = extras.getString("date");
             p_time = extras.getString("time");
+
         }
 
         name.setText(p_name);
@@ -61,6 +67,7 @@ public class PrescriptionForm extends AppCompatActivity {
         time.setText(p_time);
         p_age = Integer.toString(age);
         textView_age.setText(p_age);
+
 
         prescription_details = FirebaseFirestore.getInstance();
         save_btn.setOnClickListener(new View.OnClickListener() {
@@ -75,15 +82,18 @@ public class PrescriptionForm extends AppCompatActivity {
                 prescriptionDetailsMap.put("Gender", p_gender);
                 prescriptionDetailsMap.put("Age", p_age);
                 prescriptionDetailsMap.put("In or Out", p_inOrOut);
-                prescriptionDetailsMap.put("Prescription Details", pres_details.getText().
-
-                        toString());
+                prescriptionDetailsMap.put("Prescription Details", pres_details);
                 prescriptionDetailsMap.put("Date", p_date);
                 prescriptionDetailsMap.put("Time Slot", p_time);
 
                 // Now, update the document with the prescription details
-                documentReference.set(prescriptionDetailsMap);
+                documentReference.set(prescriptionDetailsMap)
+                        .addOnSuccessListener(aVoid -> Toast.makeText(PrescriptionForm.this, "Prescription details saved successfully", Toast.LENGTH_SHORT).show())
+                        .addOnFailureListener(e -> Toast.makeText(PrescriptionForm.this, "Error saving prescription details", Toast.LENGTH_SHORT).show());
+
             }
         });
+
     }
+
 }

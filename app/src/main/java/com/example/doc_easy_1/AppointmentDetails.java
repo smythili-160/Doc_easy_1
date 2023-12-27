@@ -1,44 +1,57 @@
 package com.example.doc_easy_1;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class AppointmentDetails extends AppCompatActivity {
 
     int age;
     FirebaseFirestore appointments;
-
+    Button cancel_appointment;
     TextView textView_age;
     EditText name, gender, phoneNumber, address, type, doctorName, inOrOut, date, time, remarks, documentID;
-    String p_name, p_gender, p_phoneNumber, p_address, p_type, p_doctorName, p_inOrOut, p_date, p_time, p_remarks, p_documentID,p_age;
+    String p_name, p_gender, p_phoneNumber, p_address, p_type, p_doctorName, p_inOrOut, p_date, p_time, p_remarks, p_documentID, p_age;
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appointment_details);
-        name=findViewById(R.id.name);
-        gender=findViewById(R.id.gender);
-        phoneNumber=findViewById(R.id.phoneNumber);
-        address=findViewById(R.id.address);
-        type=findViewById(R.id.type);
-        doctorName=findViewById(R.id.doctorName);
-        inOrOut=findViewById(R.id.inOrOut);
-        date=findViewById(R.id.date);
-        time=findViewById(R.id.time);
-        remarks=findViewById(R.id.remarks);
-        documentID=findViewById(R.id.documentID);
-        textView_age=findViewById(R.id.textView_age);
-        appointments= FirebaseFirestore.getInstance();
+        name = findViewById(R.id.name);
+        gender = findViewById(R.id.gender);
+        phoneNumber = findViewById(R.id.phoneNumber);
+        address = findViewById(R.id.address);
+        type = findViewById(R.id.type);
+        doctorName = findViewById(R.id.doctorName);
+        inOrOut = findViewById(R.id.inOrOut);
+        date = findViewById(R.id.date);
+        time = findViewById(R.id.time);
+        remarks = findViewById(R.id.remarks);
+        documentID = findViewById(R.id.documentID);
+        textView_age = findViewById(R.id.textView_age);
+        cancel_appointment = findViewById(R.id.cancel_appointment);
+        appointments = FirebaseFirestore.getInstance();
         p_documentID = getIntent().getStringExtra("documentId");
         Bundle extras = getIntent().getExtras();
-        if(extras!=null){
+        if (extras != null) {
             p_name = extras.getString("name");
             age = Integer.parseInt(extras.getString("age"));
             p_gender = extras.getString("gender");
@@ -48,7 +61,7 @@ public class AppointmentDetails extends AppCompatActivity {
             p_doctorName = extras.getString("doctor");
             p_inOrOut = extras.getString("inOrOut");
             p_date = extras.getString("date");
-            p_time  = extras.getString("time");
+            p_time = extras.getString("time");
             p_remarks = extras.getString("remarks");
         }
         name.setText(p_name);
@@ -61,14 +74,27 @@ public class AppointmentDetails extends AppCompatActivity {
         date.setText(p_date);
         time.setText(p_time);
         remarks.setText(p_remarks);
-        documentID.setText(p_documentID);
-        p_age=Integer.toString(age);
+        p_age = Integer.toString(age);
         textView_age.setText(p_age);
+        cancel_appointment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                appointments.collection("appointments").document("documentId").delete()
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d("TAG", "DocumentSnapshot successfully deleted!");
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w("TAG", "Error deleting document", e);
+                            }
+                        });
+            }
+
+        });
     }
-
-
-
-
-
 }
