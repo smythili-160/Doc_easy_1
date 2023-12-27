@@ -56,9 +56,6 @@ public class NewAppointmentPage extends AppCompatActivity {
                 Toast.makeText(NewAppointmentPage.this, "Gender cannot be Empty", Toast.LENGTH_SHORT).show();
             }
 
-
-
-
             if(apptName.equals("")||apptPhoneNumber.equals("")||(apptAddress.equals(""))||(editTextAge.equals(""))){
                 Toast.makeText(this, "Fields Cannot be Empty", Toast.LENGTH_SHORT).show();
             }else{

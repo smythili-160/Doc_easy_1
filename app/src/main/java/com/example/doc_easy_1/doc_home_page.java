@@ -22,7 +22,7 @@ public class doc_home_page extends AppCompatActivity {
     ImageView doc_profile;
     Button doc_logout_button;
     FirebaseAuth dAuth;
-    CardView myAppointments;
+    CardView myAppointments,apply_leave;
     TextView welcome_username;
     FirebaseFirestore doc_user;
     String userID;
@@ -39,6 +39,7 @@ public class doc_home_page extends AppCompatActivity {
         doc_profile=findViewById(R.id.doc_profile);
         doc_logout_button = findViewById(R.id.doc_logout_button);
         myAppointments = findViewById(R.id.myAppointments);
+        apply_leave=findViewById(R.id.apply_leave);
         dAuth= FirebaseAuth.getInstance();
         doc_user=FirebaseFirestore.getInstance();
         welcome_username = findViewById(R.id.welcome_username);
@@ -68,7 +69,14 @@ public class doc_home_page extends AppCompatActivity {
                 welcome_username.setText(documentSnapshot.getString("username"));
             }
         });
+        apply_leave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent AddNewAppt = new Intent(doc_home_page.this, applyLeave.class);
 
+                startActivity(AddNewAppt);
+            }
+        });
 
 
     }

@@ -80,7 +80,7 @@ public class AppointmentDetails extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                appointments.collection("appointments").document("documentId").delete()
+                appointments.collection("appointments").document(p_documentID).delete()
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {

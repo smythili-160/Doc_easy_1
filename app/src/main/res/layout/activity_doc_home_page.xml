@@ -5,110 +5,145 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".doc_home_page">
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp">
+        <TableRow>
 
-    <ImageView
-        android:id="@+id/doc_profile"
-        android:layout_width="63dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.071"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.004"
-        app:srcCompat="@drawable/profile_3" />
+            <ImageView
+                android:id="@+id/doc_profile"
+                android:layout_width="148dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="left"
+                app:srcCompat="@drawable/profile_3" />
 
-    <Button
-        android:id="@+id/doc_logout_button"
-        android:layout_width="163dp"
-        android:layout_height="59dp"
-        android:onClick="logout"
-        android:text="LOG OUT"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.955"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.035"
-        tools:ignore="NotSibling" />
-
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/myAppointments"
-        android:layout_width="185dp"
-        android:layout_height="185dp"
-        android:layout_margin="10dp"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="10dp"
-        app:cardMaxElevation="12dp"
-        app:cardPreventCornerOverlap="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.07"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.67">
+            <Button
+                android:id="@+id/doc_logout_button"
+                android:layout_width="196dp"
+                android:layout_height="59dp"
+                android:onClick="logout"
+                android:text="LOG OUT"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.955"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.035"
+                tools:ignore="NotSibling" />
+        </TableRow>
 
 
-        <ImageView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:src="@drawable/patients_recors_3" />
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="219dp">
 
-        <TextView
-            android:id="@+id/textView32"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:fontFamily="@font/poppins_medium"
-            android:gravity="center"
-            android:text="   My Appointments"
-            android:textSize="18sp" />
-    </androidx.cardview.widget.CardView>
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="162dp"
+                android:layout_height="154dp"
+                android:layout_marginTop="24dp"
+                app:srcCompat="@drawable/doctor" />
 
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="169dp"
-        android:layout_height="210dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.169"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.205"
-        app:srcCompat="@drawable/doctor" />
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="160dp"
-        android:layout_height="31dp"
-        android:fontFamily="@font/poppins_medium"
-        android:text="Welcome user"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.904"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.18" />
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:gravity="bottom"
+                android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/welcome_username"
-        android:layout_width="172dp"
-        android:layout_height="59dp"
-        android:background="#00000000"
-        android:ems="10"
-        android:fontFamily="@font/poppins_medium"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.953"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.233" />
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="160dp"
+                    android:layout_height="31dp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Welcome user"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.904"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.18" />
+
+                <TextView
+                    android:id="@+id/welcome_username"
+                    android:layout_width="172dp"
+                    android:layout_height="59dp"
+                    android:background="#00000000"
+                    android:ems="10"
+                    android:fontFamily="@font/poppins_medium"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.953"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.233" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </TableRow>
+        <TableRow>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/myAppointments"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="10dp"
+                app:cardMaxElevation="12dp"
+                app:cardPreventCornerOverlap="true">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="136dp"
+                        android:layout_height="138dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="10dp"
+                        android:src="@drawable/patients_recors_3" />
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="My Appointment" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/apply_leave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="10dp"
+                app:cardMaxElevation="12dp"
+                app:cardPreventCornerOverlap="true">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="136dp"
+                        android:layout_height="138dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="10dp"
+                        android:src="@drawable/new_appointment_3" />
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Apply Leave" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.cardview.widget.CardView>
+        </TableRow>
+    </TableLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

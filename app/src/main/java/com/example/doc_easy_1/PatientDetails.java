@@ -61,9 +61,16 @@ public class PatientDetails extends AppCompatActivity {
         bookappointment.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
+                                                Bundle bundle = new Bundle();
+                                                bundle.putString("name", p_name);
+                                                bundle.putString("age", p_age);
+                                                bundle.putString("gender", p_gender);
+                                                bundle.putString("phoneNumber", p_phoneNumber);
+                                                bundle.putString("address", p_address);
+
                                                 Intent i = new Intent(PatientDetails.this, NewAppointmentPageContinued.class);
+                                                i.putExtras(bundle);
                                                 startActivity(i);
-                                                finish();
 
 
                                             }
