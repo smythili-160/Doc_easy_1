@@ -78,6 +78,7 @@ public class PrescriptionForm extends AppCompatActivity {
 
 
 
+
         firestore = FirebaseFirestore.getInstance();
         save_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,6 +115,7 @@ public class PrescriptionForm extends AppCompatActivity {
 
                                     }
                                 });
+
 
                     }
                 });

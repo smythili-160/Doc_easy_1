@@ -5,12 +5,12 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    tools:context=".AllAppointments">
+    tools:context=".MyAppointments">
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
-        android:layout_height="74dp"
+        android:layout_height="wrap_content"
         tools:layout_editor_absoluteX="1dp">
 
         <androidx.appcompat.widget.Toolbar
@@ -27,46 +27,31 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/selDate"
+
+    <TextView
+        android:id="@+id/StartDate"
         android:layout_width="match_parent"
-        android:layout_height="54dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/listViewForAppointments"
+        android:layout_height="65dp"
+        android:layout_marginTop="25dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:minHeight="48dp"
+        android:text="Select Appointment Date"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/relativeLayout"
-        app:layout_constraintVertical_bias="0.5" >
-
-        <TextView
-            android:id="@+id/StartDate"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center"
-            android:minHeight="48dp"
-            android:text="Select Appointment Date"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.5" />
-    </RelativeLayout>
-
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
 
     <ListView
         android:id="@+id/listViewForAppointments"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/selDate"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="25dp"
         android:focusable="true"
-        android:focusableInTouchMode="true"
-
-        ></ListView>
+        android:focusableInTouchMode="true"/>
 
 
 </LinearLayout>

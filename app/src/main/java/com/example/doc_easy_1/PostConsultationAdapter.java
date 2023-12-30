@@ -23,17 +23,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class MyAppointmentsAdapter extends ArrayAdapter<Appointment> {
+public class PostConsultationAdapter extends ArrayAdapter<Prescription> {
 
     private Context mContext;
-    private List<Appointment> mAppointments;
+    private List<Prescription> mprescpt_details;
     private List<String> appliedFilters;
 
 
-    public MyAppointmentsAdapter(Context context, List<Appointment> appointments) {
+    public PostConsultationAdapter(Context context, List<Prescription> appointments) {
         super(context, 0, appointments);
         mContext = context;
-        mAppointments = appointments;
+        mprescpt_details = appointments;
         appliedFilters = new ArrayList<>();
     }
 
@@ -45,52 +45,51 @@ public class MyAppointmentsAdapter extends ArrayAdapter<Appointment> {
         ViewHolder holder;
 
         if (convertView == null) {
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.my_appointments_list_item, parent, false);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.postcons, parent, false);
 
             holder = new ViewHolder();
             holder.genderIcon = convertView.findViewById(R.id.genderIcon);
-            holder.nameTextView = convertView.findViewById(R.id.nameTextView);
-            holder.dateTextView = convertView.findViewById(R.id.dateTextView);
-            holder.timeslotTextView = convertView.findViewById(R.id.timeslotTextView);
+            holder.nameTextView = convertView.findViewById(R.id.name);
+            holder.pres_details = convertView.findViewById(R.id.pres_details);
 
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Appointment currentAppointment = mAppointments.get(position);
+        Prescription prescp_details = mprescpt_details.get(position);
 
-        if (!shouldShowAppointment(currentAppointment)) {
+        if (!shouldShowPrescription(prescp_details)) {
             convertView.setVisibility(View.GONE);
             convertView.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1));
         } else {
             convertView.setVisibility(View.VISIBLE);
             convertView.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
-            updateViews(holder, currentAppointment);
-            setItemClickAction(convertView, currentAppointment);
+            updateViews(holder, prescp_details);
+            setItemClickAction(convertView, prescp_details);
         }
 
         return convertView;
     }
 
-    private void updateViews(ViewHolder holder, Appointment appointment) {
+    private void updateViews(ViewHolder holder, Prescription appointment) {
         if (appointment.getGender().toLowerCase().equals("male")) {
             holder.genderIcon.setImageResource(R.drawable.male_icon);
         } else {
             holder.genderIcon.setImageResource(R.drawable.female_icon);
         }
 
-        holder.nameTextView.setText(appointment.getName());
-        holder.dateTextView.setText(appointment.getDate());
-        holder.timeslotTextView.setText(appointment.getTime());
+        holder.nameTextView.setText(appointment.getPatientName());
+        holder.pres_details.setText(appointment.getPrescriptionDetails());
+
     }
 
-    private void setItemClickAction(View itemView, Appointment appointment) {
+    private void setItemClickAction(View itemView, Prescription appointment) {
         itemView.setOnClickListener(view -> {
-            if (appointment != null && appointment.getMid() != null) {
-                String appointmentID = appointment.getMid();
-                DocumentReference appointmentRef = FirebaseFirestore.getInstance().collection("appointments").document(appointmentID);
+            if (appointment != null && appointment.getPatientName() != null) {
+                String appointmentID = appointment.getPatientName();
+                DocumentReference appointmentRef = FirebaseFirestore.getInstance().collection("prescription_details").document(appointmentID);
                 appointmentRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -106,7 +105,7 @@ public class MyAppointmentsAdapter extends ArrayAdapter<Appointment> {
                     }
                 });
             } else {
-                Toast.makeText(mContext, "Sorry Appointment ID is Null...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "Sorry Prescription ID is Null...", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -118,7 +117,7 @@ public class MyAppointmentsAdapter extends ArrayAdapter<Appointment> {
         mContext.startActivity(intent);
     }
 
-    private boolean shouldShowAppointment(Appointment appointment) {
+    private boolean shouldShowPrescription(Prescription appointment) {
         if (appliedFilters.isEmpty()) {
             return true;
         }
@@ -131,20 +130,6 @@ public class MyAppointmentsAdapter extends ArrayAdapter<Appointment> {
                         return true;
                     }
                     break;
-
-                case "inpatient":
-                case "outpatient":
-                    if (appointment.getType().equalsIgnoreCase(filter)) {
-                        return true;
-                    }
-                    break;
-
-                case "age":
-                    // Implement logic to check age filters if needed
-                    // Example: if (appointment.getAge() >= MIN_AGE && appointment.getAge() <= MAX_AGE)
-                    break;
-
-                // Add additional cases for other filters as needed
             }
         }
         return false;
@@ -153,7 +138,7 @@ public class MyAppointmentsAdapter extends ArrayAdapter<Appointment> {
     static class ViewHolder {
         ImageView genderIcon;
         TextView nameTextView;
-        TextView dateTextView;
-        TextView timeslotTextView;
+        TextView pres_details;
+        
     }
 }
