@@ -9,6 +9,31 @@ public class Prescription {
     private String PatientName;
     private String PrescriptionDetails;
     private String TimeSlot;
+    private String mid;
+
+    public Prescription(){
+
+    }
+
+    public Prescription(String age, String date, String doctorName, String gender, String inOrOut, String patientName, String prescriptionDetails, String timeSlot, String mid) {
+        this.Age = age;
+        this.Date = date;
+        this.DoctorName = doctorName;
+        this.Gender = gender;
+        this.InOrOut = inOrOut;
+        this.PatientName = patientName;
+        this.PrescriptionDetails = prescriptionDetails;
+        this.TimeSlot = timeSlot;
+        this.mid = mid;
+    }
+
+    public String getMid() {
+        return mid;
+    }
+
+    public void setMid(String mid) {
+        this.mid = mid;
+    }
 
     public String getAge() {
         return Age;

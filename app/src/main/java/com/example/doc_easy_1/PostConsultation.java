@@ -9,6 +9,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListAdapter;
@@ -19,11 +20,13 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -33,94 +36,42 @@ import java.util.Calendar;
 import java.util.Locale;
 public class PostConsultation extends AppCompatActivity {
     ListView listViewForPrescription;
-    ArrayList<Prescriptions> prescriptionsArrayList;
+    ArrayList<Prescription> prescriptionArrayList;
+    PrescriptionAdapter mprescriptionAdapter;
     FirebaseFirestore prescription_details;
     Toolbar tb;
-    FirebaseFirestore appointments;
-    ArrayList<Prescription> mprescpt_details;
-    PostConsultationAdapter adapter1;
-    FirebaseAuth dAuth;
-    FirebaseFirestore doc_user;
-    String doctor,apptDate;
-    private DatePickerDialog.OnDateSetListener dateSetListener;
-    ArrayList<String> filterChips = new ArrayList<>();
-    @SuppressLint("MissingInflatedId")
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_consultation);
-        listViewForPrescription =findViewById(R.id.listViewForPrescription);
+        listViewForPrescription= findViewById(R.id.listViewForPrescription);
         tb = findViewById(R.id.toolbar);
         setSupportActionBar(tb);
-        prescription_details=FirebaseFirestore.getInstance();
-        prescriptionsArrayList=new ArrayList<Prescriptions>();
-
-        appointments = FirebaseFirestore.getInstance();
-        mprescpt_details = new ArrayList<>();
-        dAuth= FirebaseAuth.getInstance();
-        adapter1 = new PostConsultationAdapter(PostConsultation.this, mprescpt_details);
-        listViewForPrescription.setAdapter((ListAdapter) adapter1);
-        doc_user=FirebaseFirestore.getInstance();
-        //Set Today's Date
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        String formattedDate = dateFormat.format(System.currentTimeMillis());
-        apptDate = formattedDate;
-        filterAppointmentByDate();
-        initDatePicker();
-    }
-    private void initDatePicker() {
-        dateSetListener = (view, year, monthOfYear, dayOfMonth) -> {
-            Calendar selectedDate = Calendar.getInstance();
-            selectedDate.set(Calendar.YEAR, year);
-            selectedDate.set(Calendar.MONTH, monthOfYear);
-            selectedDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            updateDate(selectedDate);
-
-        };
-
-
-
+        prescription_details = FirebaseFirestore.getInstance();
+        prescriptionArrayList = new ArrayList<Prescription>();
+        mprescriptionAdapter = new PrescriptionAdapter(PostConsultation.this, prescriptionArrayList);
+        EventChangeListener();
+        listViewForPrescription.setAdapter(mprescriptionAdapter);
 
     }
-
-    protected void updateDate(Calendar selectedDate) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        String formattedDate = dateFormat.format(selectedDate.getTime());
-        apptDate = formattedDate;
-        Toast.makeText(this, formattedDate.getClass().getSimpleName(), Toast.LENGTH_LONG).show();
-        filterAppointmentByDate();
-    }
-    private void filterAppointmentByDate(){
-        String userID = dAuth.getCurrentUser().getUid();
-
-        DocumentReference documentReference = doc_user.collection("doc_user").document(userID);
-        mprescpt_details.clear();
-        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-
+    private void EventChangeListener() {
+        prescription_details.collection("prescription_details").orderBy("PatientName", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
-            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                doctor = documentSnapshot.getString("username");
-                appointments.collection("appointments").whereEqualTo("doctor", doctor).whereEqualTo("date", apptDate).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        for(QueryDocumentSnapshot document: queryDocumentSnapshots){
-                            Prescription appointment = document.toObject(Prescription.class);
-                        }
-                        adapter1.notifyDataSetChanged();
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error != null) {
+                    Log.e("Error", error.getMessage());
+                    return;
+                }
+                for (DocumentChange dc : value.getDocumentChanges()) {
+                    if (dc.getType() == DocumentChange.Type.ADDED) {
+                        Prescription prescription = dc.getDocument().toObject(Prescription.class);
+                        prescription.setMid(dc.getDocument().getId());
+                        prescriptionArrayList.add(prescription);
                     }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(PostConsultation.this, "Error Fetching appointments", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                    mprescriptionAdapter.notifyDataSetChanged();
+                }
             }
         });
-
-
     }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
 
@@ -138,15 +89,33 @@ public class PostConsultation extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
+//            if(adapter1!=null){
+//                adapter1.getFilter().filter(newText);
+//            }
+                filterPrescriptionBySearch(newText);
                 return false;
             }
         });
         return super.onCreateOptionsMenu(menu);
     }
+    private void filterPrescriptionBySearch(String query) {
+        ArrayList<Prescription> filterprescription = new ArrayList<>();
+
+        for (Prescription prescription: prescriptionArrayList) {
+            if (prescription.getPatientName().toLowerCase().contains(query.toLowerCase())
+                    || prescription.getDate().toLowerCase().contains(query.toLowerCase())
+            ) {
+                filterprescription.add(prescription);
+            }
+        }
+
+        mprescriptionAdapter = new PrescriptionAdapter(PostConsultation.this, filterprescription);
+        listViewForPrescription.setAdapter(mprescriptionAdapter);
+    }
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        tb.setTitle("My Prescriptions");
+        tb.setTitle("prescription List");
     }
 
 }
