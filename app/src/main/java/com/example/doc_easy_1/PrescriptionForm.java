@@ -56,7 +56,7 @@ public class PrescriptionForm extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             p_name = extras.getString("name");
-            age = Integer.parseInt(extras.getString("age"));
+            age = extras.getInt("age");
             p_gender = extras.getString("gender");
             p_doctorName = extras.getString("doctor");
             p_inOrOut = extras.getString("inOrOut");
@@ -116,7 +116,6 @@ public class PrescriptionForm extends AppCompatActivity {
 
                                     }
                                 });
-
 
                     }
                 });

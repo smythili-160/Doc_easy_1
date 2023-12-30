@@ -51,7 +51,19 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
         android:focusable="true"
-        android:focusableInTouchMode="true"/>
+        android:focusableInTouchMode="true"
+        android:visibility="gone"/>
+    <TextView
+        android:id="@+id/emptyElement"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="No Appointments Today"
+        android:textColor="#525252"
+        android:textSize="19.0sp"
+        android:layout_gravity="center"
+        android:visibility="visible" />
+
 
 
 </LinearLayout>

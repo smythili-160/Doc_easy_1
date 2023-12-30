@@ -97,7 +97,7 @@ public class PrescriptionAdapter extends ArrayAdapter<Prescription> {
         });
     }
     private void startPrescriptionDetailsActivity(String prescriptionID, Bundle prescriptionDetails) {
-        Intent i = new Intent(getContext(), PrescriptionForm.class);
+        Intent i = new Intent(getContext(), PrescriptionDetails.class);
         i.putExtra("documentId", prescriptionID);
         i.putExtras(prescriptionDetails);
         pContext.startActivity(i);
