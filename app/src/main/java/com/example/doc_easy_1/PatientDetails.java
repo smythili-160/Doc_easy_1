@@ -42,10 +42,9 @@ public class PatientDetails extends AppCompatActivity {
             age = Integer.parseInt(extras.getString("age"));
             p_gender = extras.getString("gender");
             p_phoneNumber = extras.getString("phoneNumber");
-            p_address = extras.getString("address");
-
             p_inOrOut = extras.getString("inOrOut");
             p_date = extras.getString("date");
+            p_address=extras.getString("address");
 
         }
         name.setText(p_name);
@@ -63,7 +62,7 @@ public class PatientDetails extends AppCompatActivity {
                                             public void onClick(View v) {
                                                 Bundle bundle = new Bundle();
                                                 bundle.putString("name", p_name);
-                                                bundle.putString("age", p_age);
+                                                bundle.putInt("age", age);
                                                 bundle.putString("gender", p_gender);
                                                 bundle.putString("phoneNumber", p_phoneNumber);
                                                 bundle.putString("address", p_address);

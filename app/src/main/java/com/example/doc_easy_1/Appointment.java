@@ -44,8 +44,8 @@ public class Appointment {
         return mAge;
     }
 
-    public void setAge(int age) {
-        this.mAge = age;
+    public void setAge(int mAge) {
+        this.mAge = mAge;
     }
 
     public String getGender() {

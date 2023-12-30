@@ -83,7 +83,7 @@ public class AppointmentDetails extends AppCompatActivity {
                 appointments.collection("appointments").document(p_documentID).delete()
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
-                            public void onSuccess(Void aVoid) {
+                            public void onSuccess(Void aVoid) {Toast.makeText(AppointmentDetails.this, p_name+" Appointment successfully deleted!\"", Toast.LENGTH_LONG).show();
                                 Log.d("TAG", "DocumentSnapshot successfully deleted!");
                             }
                         })

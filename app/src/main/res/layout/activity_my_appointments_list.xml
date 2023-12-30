@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent"
     tools:context=".AllAppointments">
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
-        android:layout_width="411dp"
-        android:layout_height="148dp"
+        android:layout_width="match_parent"
+        android:layout_height="74dp"
         tools:layout_editor_absoluteX="1dp">
 
         <androidx.appcompat.widget.Toolbar
@@ -30,7 +31,7 @@
         android:id="@+id/selDate"
         android:layout_width="match_parent"
         android:layout_height="54dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@+id/listViewForAppointments"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -58,13 +59,14 @@
 
     <ListView
         android:id="@+id/listViewForAppointments"
-        android:layout_width="match_parent"
-        android:layout_height="543dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/selDate"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="8dp"
         android:focusable="true"
-        android:focusableInTouchMode="true" >
-    </ListView>
+        android:focusableInTouchMode="true"
+
+        ></ListView>
 
 
-</RelativeLayout>
+</LinearLayout>

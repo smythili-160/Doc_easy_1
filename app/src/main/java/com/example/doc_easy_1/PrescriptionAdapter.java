@@ -23,96 +23,92 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class PatientAdapter extends ArrayAdapter<Patient> {
+public class PrescriptionAdapter extends ArrayAdapter<Prescriptions> {
     private Context pContext;
-    private List<Patient> mpatient;
+    private List<Prescriptions> mprescription;
 
 
-
-    public PatientAdapter(Context context, List<Patient> patient) {
-        super(context, 0, patient);
+    public PrescriptionAdapter(@NonNull Context context, List<Prescriptions > prescriptions) {
+        super(context, 0, prescriptions);
         pContext = context;
-        mpatient = patient;
-       
-    }
+        mprescription=prescriptions;
 
-    
+    }
 
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        PatientAdapter.ViewHolder holder;
+        PrescriptionAdapter.ViewHolder holder;
 
         if (convertView == null) {
             convertView = LayoutInflater.from(pContext).inflate(R.layout.patient_list_item, parent, false);
 
-            holder = new PatientAdapter.ViewHolder();
+            holder = new PrescriptionAdapter.ViewHolder();
             holder.genderIcon = convertView.findViewById(R.id.genderIcon);
             holder.nameTextView = convertView.findViewById(R.id.nameTextView);
             holder.ageTextView = convertView.findViewById(R.id.ageTextView);
-            holder.phoneNumberTextView = convertView.findViewById(R.id.phoneNumberTextView);
+            holder.timeSlotTextView= convertView.findViewById(R.id.timeSlotTextView);
+            holder.dateTextView = convertView.findViewById(R.id.dateTextView);
 
             convertView.setTag(holder);
         } else {
-            holder = (PatientAdapter.ViewHolder) convertView.getTag();
+            holder = (PrescriptionAdapter.ViewHolder) convertView.getTag();
         }
-        Patient patient = mpatient.get(position);
+        Prescriptions prescriptions = mprescription.get(position);
 
-//        if (!shouldShowAppointment(patient)) {
-//            convertView.setVisibility(View.GONE);
-//            convertView.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1));
-//        } else {
+
         convertView.setVisibility(View.VISIBLE);
         convertView.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
-        updateViews(holder, patient);
-        setItemClickAction(convertView, patient);
-//        }
+        updateViews(holder, prescriptions);
+        setItemClickAction(convertView, prescriptions);
+
 
         return convertView;
     }
 
-    private void updateViews(PatientAdapter.ViewHolder holder, Patient patient) {
-        if (patient.getGender().toLowerCase().equals("male")) {
+    private void updateViews(PrescriptionAdapter.ViewHolder holder, Prescriptions prescriptions) {
+        if (prescriptions.getGender().toLowerCase().equals("male")) {
             holder.genderIcon.setImageResource(R.drawable.male_icon);
         } else {
             holder.genderIcon.setImageResource(R.drawable.female_icon);
         }
 
-        holder.nameTextView.setText(patient.getName());
-        holder.ageTextView.setText(String.valueOf(patient.getAge()));
-        holder.phoneNumberTextView.setText(patient.getPhoneNumber());
+        holder.nameTextView.setText(prescriptions.getPatientName());
+        holder.ageTextView.setText(String.valueOf(prescriptions.getAge()));
+        holder.timeSlotTextView.setText(prescriptions.getTimeSlot());
+
     }
 
-    private void setItemClickAction(View itemView, Patient patient) {
+    private void setItemClickAction(View itemView, Prescriptions prescriptions) {
         itemView.setOnClickListener(view -> {
-            if (patient != null && patient.getMid() != null) {
-                String patientID = patient.getMid();
-                DocumentReference patientRef = FirebaseFirestore.getInstance().collection("patients").document(patientID);
-                patientRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            if (prescriptions != null && prescriptions.getMid() != null) {
+                String prescriptionID = prescriptions.getMid();
+                DocumentReference prescriptionRef = FirebaseFirestore.getInstance().collection("prescription_details").document(prescriptionID);
+                prescriptionRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         if (documentSnapshot.exists()) {
-                            Bundle patientDetails = new Bundle();
+                            Bundle prescriptionsDetails= new Bundle();
                             for (Map.Entry<String, Object> entry : documentSnapshot.getData().entrySet()) {
-                                patientDetails.putString(entry.getKey(), entry.getValue().toString());
+                                prescriptionsDetails.putString(entry.getKey(), entry.getValue().toString());
                             }
-                            startPatientDetailsActivity(patientID, patientDetails);
+                            startprescriptionsDetailsActivity(prescriptionID, prescriptionsDetails);
                         } else {
                             Toast.makeText(pContext, "Unable to open details", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
             } else {
-                Toast.makeText(pContext, "Sorry Patient ID is Null...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(pContext, "Sorry Prescription ID is Null...", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void startPatientDetailsActivity(String patientID, Bundle patientDetails) {
-        Intent intent = new Intent(getContext(), PatientDetails.class);
-        intent.putExtra("documentId", patientID);
-        intent.putExtras(patientDetails);
+    private void startprescriptionsDetailsActivity(String prescriptionID, Bundle prescriptionsDetails) {
+        Intent intent = new Intent(getContext(), PrescriptionForm.class);
+        intent.putExtra("documentId", prescriptionID);
+        intent.putExtras(prescriptionsDetails);
         pContext.startActivity(intent);
     }
 
@@ -120,6 +116,7 @@ public class PatientAdapter extends ArrayAdapter<Patient> {
         ImageView genderIcon;
         TextView nameTextView;
         TextView ageTextView;
-        TextView phoneNumberTextView;
+        TextView dateTextView;
+        TextView timeSlotTextView;
     }
 }

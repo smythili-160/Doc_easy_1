@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (getitem(0) < 6)
+                if (getitem(0) < 5)
                     mSLideViewPager.setCurrentItem(getitem(1),true);
                 else {
 

@@ -2,6 +2,7 @@ package com.example.doc_easy_1 ;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.location.Address;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -225,10 +226,10 @@ public class NewAppointmentPageContinued extends AppCompatActivity {
 
         Bundle b = getIntent().getExtras();
         apptName = b != null ? b.getString("name") : null;
-        apptAge = b != null ? b.getInt("age", 0) : 0;
+        apptAge = b != null ? b.getInt("age", 23) : 23;
         apptGender = b != null ? b.getString("gender") : null;
         apptPhoneNumber = b != null ? b.getString("phoneNumber") : null;
-        apptAddress = b != null ? b.getString("address") : null;
+        apptAddress = b != null ? b.getString("address","Yelahanka") : "Yelahanaka";
 
         showName();
 
@@ -261,6 +262,7 @@ public class NewAppointmentPageContinued extends AppCompatActivity {
         appointment.put("inOrOut", apptInOrOut);
         appointment.put("remarks", apptMedicalRemarks);
         appointment.put("phoneNumber", apptPhoneNumber);
+        appointment.put("address",apptAddress);
         appointment.put("type", apptType);
         appointment.put("doctor", apptDoctorName);
         appointment.put("date", apptDate);

@@ -1,16 +1,22 @@
 package com.example.doc_easy_1;
 
+import static android.content.ContentValues.TAG;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -23,11 +29,11 @@ import java.util.Map;
 public class PrescriptionForm extends AppCompatActivity {
 
     int age;
-    FirebaseFirestore prescription_details;
-    TextView textView_age;
-    EditText name, gender, doctorName, inOrOut, date, time, pres_details;
-    String p_name, p_gender, p_doctorName, p_inOrOut, p_date, p_time, p_age, p_documentID;
-    Button save_btn;
+    private FirebaseFirestore firestore;
+    private TextView textView_age;
+    private EditText name, gender, doctorName, inOrOut, date, time, pres_details;
+    private String p_name, p_gender, p_doctorName, p_inOrOut, p_date, p_time, p_age, p_documentID,p_details;
+    private Button save_btn;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -69,27 +75,49 @@ public class PrescriptionForm extends AppCompatActivity {
         textView_age.setText(p_age);
 
 
-        prescription_details = FirebaseFirestore.getInstance();
+
+
+
+        firestore = FirebaseFirestore.getInstance();
         save_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Move the following lines inside the onCreate method
-                DocumentReference documentReference = prescription_details.collection("prescription_details").document(p_documentID);
+                DocumentReference documentReference = firestore.collection("appointments").document(p_documentID);
+                documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                        Map<String, Object> prescriptionDetailsMap = new HashMap<>();
+                        prescriptionDetailsMap.put("DoctorName", p_doctorName);
+                        prescriptionDetailsMap.put("PatientName", p_name);
+                        prescriptionDetailsMap.put("Gender", p_gender);
+                        prescriptionDetailsMap.put("Age", p_age);
+                        prescriptionDetailsMap.put("InOrOut", p_inOrOut);
+                        prescriptionDetailsMap.put("PrescriptionDetails", pres_details.getText().toString());
+                        prescriptionDetailsMap.put("Date", p_date);
+                        prescriptionDetailsMap.put("TimeSlot", p_time);
+                        firestore.collection("prescription_details").add(prescriptionDetailsMap)
+                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                    @Override
+                                    public void onSuccess(DocumentReference documentReference) {
+                                        // Document added successfully
+                                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                                        Toast.makeText(PrescriptionForm.this, "Consultation details entered", Toast.LENGTH_LONG).show();
+                                        finish();
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w("TAG","Error in adding Consultation details",e);
+                                        Toast.makeText(PrescriptionForm.this,"Error in storing Consultation Details",Toast.LENGTH_LONG).show();
 
-                Map<String, Object> prescriptionDetailsMap = new HashMap<>();
-                prescriptionDetailsMap.put("Doctor Name", p_doctorName);
-                prescriptionDetailsMap.put("Prescription Name", p_name);
-                prescriptionDetailsMap.put("Gender", p_gender);
-                prescriptionDetailsMap.put("Age", p_age);
-                prescriptionDetailsMap.put("In or Out", p_inOrOut);
-                prescriptionDetailsMap.put("Prescription Details", pres_details);
-                prescriptionDetailsMap.put("Date", p_date);
-                prescriptionDetailsMap.put("Time Slot", p_time);
+                                    }
+                                });
 
-                // Now, update the document with the prescription details
-                documentReference.set(prescriptionDetailsMap)
-                        .addOnSuccessListener(aVoid -> Toast.makeText(PrescriptionForm.this, "Prescription details saved successfully", Toast.LENGTH_SHORT).show())
-                        .addOnFailureListener(e -> Toast.makeText(PrescriptionForm.this, "Error saving prescription details", Toast.LENGTH_SHORT).show());
+                    }
+                });
+
 
             }
         });

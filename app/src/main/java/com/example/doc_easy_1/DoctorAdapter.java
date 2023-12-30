@@ -18,7 +18,7 @@ import java.util.List;
 public class DoctorAdapter extends ArrayAdapter<Doctor> {
     Context mContext;
     ArrayList<Doctor> doctorArrayList;
-    private List<String> appliedFilters;
+
 
     public DoctorAdapter(@NonNull Context context, ArrayList<Doctor> list) {
         super(context, 0, list);
@@ -72,18 +72,12 @@ public class DoctorAdapter extends ArrayAdapter<Doctor> {
         itemView.setOnClickListener(view -> {
             if (doctor != null && doctor.getMid() != null) {
                 String doctorMid = doctor.getMid();
-                startDoctorDetailsActivity(doctorMid);
             } else {
                 Toast.makeText(mContext, "Sorry Doctor ID is Null...", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void startDoctorDetailsActivity(String doctorID) {
-        Intent intent = new Intent(getContext(), DocProf.class);
-        intent.putExtra("documentId", doctorID);
-        mContext.startActivity(intent);
-    }
 
 //    private boolean shouldShowAppointment(Doctor doctor) {
 //        if (appliedFilters.isEmpty()) {
