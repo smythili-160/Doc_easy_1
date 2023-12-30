@@ -37,8 +37,7 @@ public class PostConsultation extends AppCompatActivity {
     FirebaseFirestore prescription_details;
     Toolbar tb;
     FirebaseFirestore appointments;
-    ListView listViewForAppointments;
-    ArrayList<Appointment> mAppointments;
+    ArrayList<Prescription> mprescpt_details;
     PostConsultationAdapter adapter1;
     FirebaseAuth dAuth;
     FirebaseFirestore doc_user;
@@ -55,13 +54,12 @@ public class PostConsultation extends AppCompatActivity {
         setSupportActionBar(tb);
         prescription_details=FirebaseFirestore.getInstance();
         prescriptionsArrayList=new ArrayList<Prescriptions>();
-        
-        listViewForAppointments = findViewById(R.id.listViewForAppointments);
+
         appointments = FirebaseFirestore.getInstance();
-        mAppointments = new ArrayList<>();
+        mprescpt_details = new ArrayList<>();
         dAuth= FirebaseAuth.getInstance();
-        adapter1 = new PostConsultationAdapter(PostConsultation.this, mAppointments);
-        listViewForAppointments.setAdapter((ListAdapter) adapter1);
+        adapter1 = new PostConsultationAdapter(PostConsultation.this, mprescpt_details);
+        listViewForPrescription.setAdapter((ListAdapter) adapter1);
         doc_user=FirebaseFirestore.getInstance();
         //Set Today's Date
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
@@ -96,7 +94,7 @@ public class PostConsultation extends AppCompatActivity {
         String userID = dAuth.getCurrentUser().getUid();
 
         DocumentReference documentReference = doc_user.collection("doc_user").document(userID);
-        mAppointments.clear();
+        mprescpt_details.clear();
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
 
             @Override
@@ -106,9 +104,7 @@ public class PostConsultation extends AppCompatActivity {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         for(QueryDocumentSnapshot document: queryDocumentSnapshots){
-                            Appointment appointment = document.toObject(Appointment.class);
-                            appointment.setMid(document.getId());
-                            mAppointments.add(appointment);
+                            Prescription appointment = document.toObject(Prescription.class);
                         }
                         adapter1.notifyDataSetChanged();
                     }
@@ -142,28 +138,15 @@ public class PostConsultation extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                filterAppointmentsBySearch(newText);
                 return false;
             }
         });
         return super.onCreateOptionsMenu(menu);
     }
-    private void filterAppointmentsBySearch(String query) {
-        ArrayList<Appointment> filteredAppointments = new ArrayList<>();
-        for (Appointment appointment : mAppointments) {
-            if (appointment.getName().toLowerCase().contains(query.toLowerCase())
-                    || String.valueOf(appointment.getAge()).contains(query)
-                    || appointment.getType().toLowerCase().contains(query.toLowerCase())) {
-                filteredAppointments.add(appointment);
-            }
-        }
-        adapter1 = new PostConsultationAdapter(PostConsultation.this, filteredAppointments);
-        listViewForAppointments.setAdapter(adapter1);
-    }
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        tb.setTitle("My Appointments");
+        tb.setTitle("My Prescriptions");
     }
 
 }
