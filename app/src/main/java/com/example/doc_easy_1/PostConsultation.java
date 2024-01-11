@@ -35,10 +35,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 public class PostConsultation extends AppCompatActivity {
+
     ListView listViewForPrescription;
     ArrayList<Prescription> prescriptionArrayList;
     PrescriptionAdapter mprescriptionAdapter;
     FirebaseFirestore prescription_details;
+    FirebaseAuth dAuth;
+    FirebaseFirestore doc_user;
+    String doctor;
     Toolbar tb;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,12 +51,47 @@ public class PostConsultation extends AppCompatActivity {
         tb = findViewById(R.id.toolbar);
         setSupportActionBar(tb);
         prescription_details = FirebaseFirestore.getInstance();
+        dAuth= FirebaseAuth.getInstance();
+        doc_user=FirebaseFirestore.getInstance();
         prescriptionArrayList = new ArrayList<Prescription>();
         mprescriptionAdapter = new PrescriptionAdapter(PostConsultation.this, prescriptionArrayList);
+        filterprescriptionByDoctor();
         EventChangeListener();
         listViewForPrescription.setAdapter(mprescriptionAdapter);
 
     }
+    private void filterprescriptionByDoctor(){
+        String userID = dAuth.getCurrentUser().getUid();
+
+        DocumentReference documentReference = doc_user.collection("doc_user").document(userID);
+        prescriptionArrayList.clear();
+        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                doctor = documentSnapshot.getString("username");
+                prescription_details.collection("prescription_details").whereEqualTo("DoctorName", doctor).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for(QueryDocumentSnapshot document: queryDocumentSnapshots){
+                            Prescription prescription = document.toObject(Prescription.class);
+                            prescription.setMid(document.getId());
+                            prescriptionArrayList.add(prescription);
+                        }
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(PostConsultation.this, "Error Fetching prescription_details", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+
+
+    }
+
     private void EventChangeListener() {
         prescription_details.collection("prescription_details").orderBy("PatientName", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -89,8 +128,8 @@ public class PostConsultation extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-//            if(adapter1!=null){
-//                adapter1.getFilter().filter(newText);
+//            if(mprescriptionAdapter!=null){
+//                mprescriptionAdapter.getFilter().filter(newText);
 //            }
                 filterPrescriptionBySearch(newText);
                 return false;

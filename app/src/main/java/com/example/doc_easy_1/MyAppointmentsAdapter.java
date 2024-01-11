@@ -153,6 +153,7 @@ public class MyAppointmentsAdapter extends ArrayAdapter<Appointment> {
     static class ViewHolder {
         ImageView genderIcon;
         TextView nameTextView;
+
         TextView dateTextView;
         TextView timeslotTextView;
     }

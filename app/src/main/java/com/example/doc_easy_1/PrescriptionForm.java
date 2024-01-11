@@ -30,8 +30,7 @@ public class PrescriptionForm extends AppCompatActivity {
 
     int age;
     private FirebaseFirestore firestore;
-    private TextView textView_age;
-    private EditText name, gender, doctorName, inOrOut, date, time, pres_details;
+    private EditText name, gender, doctorName, inOrOut, date, time, pres_details,textView_age;
     private String p_name, p_gender, p_doctorName, p_inOrOut, p_date, p_time, p_age, p_documentID,p_details,appointmentId;
     private Button save_btn;
 
@@ -56,7 +55,7 @@ public class PrescriptionForm extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             p_name = extras.getString("name");
-            age = extras.getInt("age");
+            age = Integer.parseInt(extras.getString("age"));
             p_gender = extras.getString("gender");
             p_doctorName = extras.getString("doctor");
             p_inOrOut = extras.getString("inOrOut");
@@ -89,7 +88,6 @@ public class PrescriptionForm extends AppCompatActivity {
                     @Override
                     public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                         Map<String, Object> prescriptionDetailsMap = new HashMap<>();
-                        prescriptionDetailsMap.put("appointmentId", appointmentId);
                         prescriptionDetailsMap.put("DoctorName", p_doctorName);
                         prescriptionDetailsMap.put("PatientName", p_name);
                         prescriptionDetailsMap.put("Gender", p_gender);

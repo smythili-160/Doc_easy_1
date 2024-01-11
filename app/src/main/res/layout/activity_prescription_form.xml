@@ -247,20 +247,20 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.315" />
 
-    <TextView
+    <EditText
         android:id="@+id/textView_age"
-        android:layout_width="73dp"
-        android:layout_height="38dp"
+        android:layout_width="78dp"
+        android:layout_height="48dp"
+        android:background="#00000000"
         android:fontFamily="@font/poppins_medium"
         android:text="Age"
-        android:background="#00000000"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.213"
+        app:layout_constraintHorizontal_bias="0.222"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.317" />
+        app:layout_constraintVertical_bias="0.319" />
 
     <Button
         android:id="@+id/save_btn"

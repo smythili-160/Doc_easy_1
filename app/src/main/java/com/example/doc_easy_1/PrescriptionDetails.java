@@ -29,7 +29,7 @@ public class PrescriptionDetails extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if(extras!=null){
             p_name = extras.getString("PatientName");
-            age = extras.getInt("Age");
+            age = Integer.parseInt(extras.getString("Age"));
             p_gender = extras.getString("Gender");
             p_doctorName = extras.getString("DoctorName");
             p_inOrOut = extras.getString("InOrOut");
@@ -45,7 +45,6 @@ public class PrescriptionDetails extends AppCompatActivity {
         inOrOut.setText(p_inOrOut);
         date.setText(p_date);
         time.setText(p_time);
-        p_age = Integer.toString(age);
         textView_age.setText(p_age);
         pres_details.setText(p_details);
     }

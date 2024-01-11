@@ -76,6 +76,7 @@ public class AppointmentDetails extends AppCompatActivity {
         remarks.setText(p_remarks);
         p_age = Integer.toString(age);
         textView_age.setText(p_age);
+        documentID.setText(p_documentID);
         cancel_appointment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
