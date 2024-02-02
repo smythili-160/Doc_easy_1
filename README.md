@@ -12,6 +12,22 @@ Imagine this you enter a building, its walls stark white and its citizens clad i
  
 
 The result? A dramatic reduction in wait times and a seamless booking experience. Doctors and receptionists alike find it easy to navigate the application’s user-friendly interface, making the process of scheduling and managing appointments a breeze. And in the dynamic world of healthcare, where doctors may be unavailable due to emergencies or holidays, the application works like a charm. DocEasy effortlessly allows doctors to hand over their appointments to their colleagues, ensuring uninterrupted care for Patients. In the heart of the hospital, amidst the chaos and volatility of life, this application will stand as a testament to the power of technology to improve healthcare.Welcome  to the future, where managing doctor appointments is just a tap away.  
+
+  FEATURES:
+
+The key features of DocEasy are: 
+1. Develop a secure and user-friendly healthcare application facilitating seamless communication between doctors and patients. 
+
+2. Implement robust authentication and authorization mechanisms for ensuring user data privacy and confidentiality. 
+
+3. Provide a feature-rich booking system, enabling patients to easily schedule appointments with healthcare professionals. 
+
+4.Ensure an intuitive user interface for accessibility, catering to both patients and doctors. 
+
+5. Incorporate Firebase services for reliable user authentication, real-time database updates, and cloud storage. 
+
+6. Establish a comprehensive user profile system, view appointment history, and communicate preferences. 
+
  
 
                  
